@@ -1,4 +1,4 @@
-# CarService GRUD REST API
+# CarService CRUD REST API
 ## Beschreibung
 Mit dieser API kann man sehr einfach Datensätze für Autos erstellen, ändern, listen und löschen.
 ## Setup

@@ -1,6 +1,5 @@
 package com.nttdata.CarService.controller;
 
-
 import com.nttdata.CarService.entity.Car;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,7 @@ public class CarController {
 
     @PostMapping("/create")
     public ResponseEntity<String> createCar(@RequestParam String marke, @RequestParam String modell,
-                                            @RequestParam int gewicht, @RequestParam int leistung, @RequestParam String farbe,
+                                            @RequestParam Integer gewicht, @RequestParam Integer leistung, @RequestParam String farbe,
                                             @RequestParam(required = false) String klasse,
                                             @RequestParam(required = false) Integer tueren,
                                             @RequestParam(required = false) Integer drehmoment,
@@ -41,7 +40,7 @@ public class CarController {
             car.setMotor_art(motor_art);
         }
         carList.add(car);
-        return new ResponseEntity<String>("Created Car!", HttpStatus.OK);
+        return new ResponseEntity<String>("Created Car!", HttpStatus.CREATED);
     }
 
     @GetMapping("/list")
@@ -51,17 +50,27 @@ public class CarController {
     }
 
     @GetMapping("/list/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
     Car listSelectedCar(@PathVariable int id) {
         return carList.get(id);
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<String> addCarProperties(@RequestParam int id, @RequestParam(required = false) String marke,
+    public ResponseEntity<String> addCarProperties(@RequestParam Integer id, @RequestParam(required = false) String marke,
                                                    @RequestParam(required = false) String modell, @RequestParam(required = false) Integer gewicht,
                                                    @RequestParam(required = false) Integer leistung, @RequestParam(required = false) Integer drehmoment,
                                                    @RequestParam(required = false) String farbe, @RequestParam(required = false) Integer tueren,
                                                    @RequestParam(required = false) String klasse, @RequestParam(required = false) String motor_art) {
+        if (id == null) {
+            return new ResponseEntity<String>("No ID", HttpStatus.BAD_REQUEST);
+        }
+        if (carList.isEmpty()) {
+            return new ResponseEntity<String>("No Cars", HttpStatus.NOT_FOUND);
+        }
+        if (carList.size() < id) {
+            return new ResponseEntity<String>("No Car with this id", HttpStatus.NOT_FOUND);
+        }
         if (marke != null) {
             carList.get(id).setMarke(marke);
         }
@@ -94,8 +103,13 @@ public class CarController {
 
     @DeleteMapping("/delete")
     public ResponseEntity<String> deleteCar(@RequestParam int id) {
+        if (carList.isEmpty()) {
+            return new ResponseEntity<String>("No Cars", HttpStatus.NOT_FOUND);
+        } else if (carList.size() < id) {
+            return new ResponseEntity<String>("Id is invalid", HttpStatus.NOT_FOUND);
+        }
         carList.remove(id);
-        return new ResponseEntity<String>("Removed!", HttpStatus.OK);
+        return new ResponseEntity<String>("Removed!", HttpStatus.NO_CONTENT);
     }
 
 }

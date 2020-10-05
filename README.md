@@ -1,14 +1,25 @@
 # CarService GRUD REST API
 ## Beschreibung
 Mit dieser API kann man sehr einfach Datensätze für Autos erstellen, ändern, listen und löschen.
+## Projekt übersicht
+- [Requirements](#Requirements)
+- [Setup](#Setup)
+- [How to use](#HowToUse)
+## Requirements
+- Java 8 or higher
+- Maven 3.6.3 or higher
 ## Setup
 - Download the git repo `` git clone https://github.com/LukasLJL/CarService.git`` 
 - Importiere das Maven Projekt in deine IDE am besten Intellij
 - In der IDE das Projekt starten
+- Alternativ im Projektverzeichnis über Maven direkt builden:
+    - Windows or Linux etc.: ``mvn package``
+    - Die Java Datei befindet sich jetzt im ``target`` ordner
+    - mit ``java -jar ./target/CarService-1.0.0.jar`` kann man die API dann Manuel starten
 - Die API sollte auf ``http://localhost:8080/car/`` laufen
 - *Um das Testen einfacher zu machen, liegt im Projekt Verzeichnis eine ``createSampleData.cmd`` or ``createSampleData.sh``
 mit diesem Script kannst du einfach Test-Daten erstellen.*
-## How to use
+## HowToUse
 Ein Car kann folgenden Eigenschaften haben:
 - marke
 - modell

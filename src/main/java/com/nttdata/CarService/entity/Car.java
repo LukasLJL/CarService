@@ -2,6 +2,7 @@ package com.nttdata.CarService.entity;
 
 public class Car {
 
+    private int id;
     private String marke;
     private String modell;
     private int gewicht;
@@ -26,6 +27,14 @@ public class Car {
         this.tueren = tueren;
         this.klasse = klasse;
         this.motor_art = motor_art;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getMarke() {

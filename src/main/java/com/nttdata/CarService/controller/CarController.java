@@ -7,12 +7,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @Controller
 @RequestMapping("/car")
 public class CarController {
 
-    ArrayList<Car> carList = new ArrayList<Car>();
+    HashMap<Integer, Car> carList = new HashMap<Integer, Car>();
+
 
     @PostMapping("/create")
     public ResponseEntity<String> createCar(@RequestParam String marke, @RequestParam String modell,
@@ -22,6 +24,7 @@ public class CarController {
                                             @RequestParam(required = false) Integer drehmoment,
                                             @RequestParam(required = false) String motor_art) {
         Car car = new Car();
+        car.setId(carList.size() + 1);
         car.setMarke(marke);
         car.setModell(modell);
         car.setGewicht(gewicht);
@@ -39,13 +42,13 @@ public class CarController {
         if (motor_art != null) {
             car.setMotor_art(motor_art);
         }
-        carList.add(car);
-        return new ResponseEntity<String>("Created Car!", HttpStatus.CREATED);
+        carList.put(car.getId(), car);
+        return new ResponseEntity<String>("ID: " + car.getId(), HttpStatus.CREATED);
     }
 
     @GetMapping("/list")
     public @ResponseBody
-    ArrayList<Car> listCar() {
+    HashMap<Integer, Car> listCar() {
         return carList;
     }
 
@@ -68,7 +71,7 @@ public class CarController {
         if (carList.isEmpty()) {
             return new ResponseEntity<String>("No Cars", HttpStatus.NOT_FOUND);
         }
-        if (carList.size() < id) {
+        if (carList.containsKey(id)) {
             return new ResponseEntity<String>("No Car with this id", HttpStatus.NOT_FOUND);
         }
         if (marke != null) {

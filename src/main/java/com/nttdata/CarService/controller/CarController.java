@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 @Controller
@@ -14,7 +13,6 @@ import java.util.HashMap;
 public class CarController {
 
     HashMap<Integer, Car> carList = new HashMap<Integer, Car>();
-
 
     @PostMapping("/create")
     public ResponseEntity<String> createCar(@RequestParam String marke, @RequestParam String modell,
@@ -43,7 +41,7 @@ public class CarController {
             car.setMotor_art(motor_art);
         }
         carList.put(car.getId(), car);
-        return new ResponseEntity<String>("ID: " + car.getId(), HttpStatus.CREATED);
+        return new ResponseEntity<String>("Created Car with ID: " + car.getId(), HttpStatus.CREATED);
     }
 
     @GetMapping("/list")

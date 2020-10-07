@@ -22,7 +22,7 @@ public class CarController {
                                             @RequestParam(required = false) String motor_art) {
 
         int id = CarDataHandler.createCar(marke, modell, gewicht, leistung, farbe, klasse, tueren, drehmoment, motor_art);
-        return new ResponseEntity<String>("Created Car with ID: " + id, HttpStatus.CREATED);
+        return new ResponseEntity<>("Created Car with ID: " + id, HttpStatus.CREATED);
     }
 
     @GetMapping("/list")
@@ -45,29 +45,29 @@ public class CarController {
                                                    @RequestParam(required = false) String farbe, @RequestParam(required = false) Integer tueren,
                                                    @RequestParam(required = false) String klasse, @RequestParam(required = false) String motor_art) {
         if (id == null) {
-            return new ResponseEntity<String>("No ID", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("No ID", HttpStatus.BAD_REQUEST);
         }
         if (CarDataHandler.getCarList().isEmpty()) {
-            return new ResponseEntity<String>("No Cars", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("No Cars", HttpStatus.NOT_FOUND);
         }
         if (!CarDataHandler.getCarList().containsKey(id)) {
-            return new ResponseEntity<String>("No Car with this id", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("No Car with this id", HttpStatus.NOT_FOUND);
         }
         if (id != null && !CarDataHandler.getCarList().isEmpty() && CarDataHandler.getCarList().containsKey(id)) {
             CarDataHandler.editCar(id, marke, modell, gewicht, leistung, drehmoment, farbe, tueren, klasse, motor_art);
         }
-        return new ResponseEntity<String>("Properties added!", HttpStatus.OK);
+        return new ResponseEntity<>("Properties added!", HttpStatus.OK);
     }
 
     @DeleteMapping("/delete")
     public ResponseEntity<String> deleteCar(@RequestParam int id) {
         if (CarDataHandler.getCarList().isEmpty()) {
-            return new ResponseEntity<String>("No Cars", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("No Cars", HttpStatus.NOT_FOUND);
         } else if (!CarDataHandler.getCarList().containsKey(id)) {
-            return new ResponseEntity<String>("Id is invalid", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Id is invalid", HttpStatus.NOT_FOUND);
         }
         CarDataHandler.deleteCar(id);
-        return new ResponseEntity<String>("Removed!", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("Removed!", HttpStatus.NO_CONTENT);
     }
 
 }

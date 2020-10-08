@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class StartController {
+
     @RequestMapping("/")
     public String start (){
         return "<h1>CAR Service</h1>";

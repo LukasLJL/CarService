@@ -101,7 +101,7 @@ public class CarController {
         return new ResponseEntity<>("Removed!", HttpStatus.NO_CONTENT);
     }
 
-    //DELTE Car with json
+    //DELETE Car with json
     @RequestMapping(method = RequestMethod.DELETE, value = "/delete", consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<String> deleteCarJSON(@RequestBody Car car) {
         if (CarDataHandler.getCarList().isEmpty()) {
@@ -112,5 +112,4 @@ public class CarController {
         CarDataHandler.deleteCar(car.getId());
         return new ResponseEntity<>("Removed!", HttpStatus.NO_CONTENT);
     }
-
 }

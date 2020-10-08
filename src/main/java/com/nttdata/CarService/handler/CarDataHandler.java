@@ -39,7 +39,6 @@ public class CarDataHandler {
     //create Car with JSON
     public static int createCar(Car car) {
         car.setId(id ++);
-        car.setMarke(car.getMarke());
         carList.put(car.getId(), car);
         return car.getId();
     }

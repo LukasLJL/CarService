@@ -8,11 +8,13 @@ public class CarDataHandler {
 
     static HashMap<Integer, Car> carList = new HashMap<Integer, Car>();
 
+    private static int id;
+
     public static int createCar(String marke, String modell,
                                  Integer gewicht, Integer leistung, String farbe,
                                  String klasse, Integer tueren, Integer drehmoment, String motor_art) {
         Car car = new Car();
-        car.setId(CarDataHandler.getCarList().size() + 1);
+        car.setId(id ++);
         car.setMarke(marke);
         car.setModell(modell);
         car.setGewicht(gewicht);
@@ -30,6 +32,14 @@ public class CarDataHandler {
         if (motor_art != null) {
             car.setMotor_art(motor_art);
         }
+        carList.put(car.getId(), car);
+        return car.getId();
+    }
+
+    //create Car with JSON
+    public static int createCar(Car car) {
+        car.setId(id ++);
+        car.setMarke(car.getMarke());
         carList.put(car.getId(), car);
         return car.getId();
     }
@@ -64,6 +74,37 @@ public class CarDataHandler {
         }
         if (motor_art != null) {
             carList.get(id).setMotor_art(motor_art);
+        }
+    }
+
+    //edit Car with JSON
+    public static void editCar(Car car) {
+        if (car.getMarke() != null) {
+            carList.get(car.getId()).setMarke(car.getMarke());
+        }
+        if (car.getModell() != null) {
+            carList.get(car.getId()).setModell(car.getModell());
+        }
+        if (car.getGewicht() != 0) {
+            carList.get(car.getId()).setGewicht(car.getGewicht());
+        }
+        if ( car.getLeistung() != 0) {
+            carList.get(car.getId()).setLeistung(car.getLeistung());
+        }
+        if (car.getDrehmoment() != 0) {
+            carList.get(car.getId()).setDrehmoment(car.getDrehmoment());
+        }
+        if (car.getFarbe() != null) {
+            carList.get(car.getId()).setFarbe(car.getFarbe());
+        }
+        if (car.getTueren() != 0) {
+            carList.get(car.getId()).setTueren(car.getTueren());
+        }
+        if (car.getKlasse() != null) {
+            carList.get(car.getId()).setKlasse(car.getKlasse());
+        }
+        if (car.getMotor_art() != null) {
+            carList.get(car.getId()).setMotor_art(car.getMotor_art());
         }
     }
 

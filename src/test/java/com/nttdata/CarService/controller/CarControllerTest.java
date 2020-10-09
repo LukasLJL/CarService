@@ -11,11 +11,31 @@ import org.springframework.web.client.RestTemplate;
 import static org.junit.jupiter.api.Assertions.fail;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CarControllerTest {
 
     //JSON TESTING
+
+    @BeforeAll
+    void setUp () throws JSONException {
+        JSONObject testCar = new JSONObject();
+        testCar.put("marke", "Mercedes");
+        testCar.put("modell", "S-Klasse");
+        testCar.put("leistung", "480");
+        testCar.put("gewicht", 2200);
+
+        RestTemplate restTemplate = new RestTemplate();
+        final  String baseUrl = "http://localhost:8080/car/create";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<String> request = new HttpEntity<String>(testCar.toString(), headers);
+
+        ResponseEntity<String> result = restTemplate.postForEntity(baseUrl, request, String.class);
+    }
+
     @Test
-    @Order(1)
     void addCarPropertiesWhileNoCarExits() throws JSONException {
 
         JSONObject car = new JSONObject();
@@ -40,7 +60,6 @@ class CarControllerTest {
     }
 
     @Test
-    @Order(2)
     void testCreateCar() throws JSONException {
         JSONObject car = new JSONObject();
         car.put("marke", "Mercedes");
@@ -63,7 +82,6 @@ class CarControllerTest {
 
     //JSON
     @Test
-    @Order(3)
     void addCarPropertiesJSON() throws JSONException {
         JSONObject car1 = new JSONObject();
         JSONObject car2 = new JSONObject();
@@ -119,13 +137,12 @@ class CarControllerTest {
     }
 
     @Test
-    @Order(4)
     void deleteCarJSON() throws JSONException {
         JSONObject car1 = new JSONObject();
         JSONObject car2 = new JSONObject();
 
         //Test delete function
-        car1.put("id", 1);
+        car1.put("id", 0);
         //Test delete function without ID (error handling)
         car2.put("id", -1);
 

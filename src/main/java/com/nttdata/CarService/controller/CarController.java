@@ -2,6 +2,7 @@ package com.nttdata.CarService.controller;
 
 import com.nttdata.CarService.entity.Car;
 import com.nttdata.CarService.handler.CarDataHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,13 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping("/car")
 public class CarController {
 
+    private final CarDataHandler carDataHandler;
+
+    @Autowired
+    public CarController (CarDataHandler carDataHandler){
+        this.carDataHandler = carDataHandler;
+    }
+
     //POST create Car with parameters
     @RequestMapping(method = RequestMethod.POST, value = "/create", consumes = APPLICATION_FORM_URLENCODED_VALUE)
     public ResponseEntity<String> createCar(@RequestParam String marke, @RequestParam String modell,
@@ -25,28 +33,28 @@ public class CarController {
                                             @RequestParam(required = false) Integer drehmoment,
                                             @RequestParam(required = false) String motor_art) {
 
-        int id = CarDataHandler.createCar(marke, modell, gewicht, leistung, farbe, klasse, tueren, drehmoment, motor_art);
-        return new ResponseEntity<>("Created Car with ID: " + id, HttpStatus.CREATED);
+        Car newCar = carDataHandler.createCar(marke, modell, gewicht, leistung, farbe, klasse, tueren, drehmoment, motor_art);
+        return new ResponseEntity<>("Created Car with ID: " + newCar.getId(), HttpStatus.CREATED);
     }
 
     //POST create Car with json
     @RequestMapping(method = RequestMethod.POST, value = "/create", consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createCar (@RequestBody Car car){
-        CarDataHandler.createCar(car);
+        carDataHandler.createCar(car);
         return new ResponseEntity<>("Created Car with ID: " +car.getId(), HttpStatus.CREATED);
     }
 
     @GetMapping("/list")
     public @ResponseBody
     HashMap<Integer, Car> listCar() {
-        return CarDataHandler.getCarList();
+        return carDataHandler.getCarList();
     }
 
     @GetMapping("/list/{id}")
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
     Car listSelectedCar(@PathVariable int id) {
-        return CarDataHandler.getCarList().get(id);
+        return carDataHandler.getCarList().get(id);
     }
 
     //PUT edit Car with parameters
@@ -59,14 +67,14 @@ public class CarController {
         if (id == null) {
             return new ResponseEntity<>("No ID", HttpStatus.BAD_REQUEST);
         }
-        if (CarDataHandler.getCarList().isEmpty()) {
+        if (carDataHandler.getCarList().isEmpty()) {
             return new ResponseEntity<>("No Cars", HttpStatus.NOT_FOUND);
         }
-        if (!CarDataHandler.getCarList().containsKey(id)) {
+        if (!carDataHandler.getCarList().containsKey(id)) {
             return new ResponseEntity<>("No Car with this id", HttpStatus.NOT_FOUND);
         }
-        if (id != null && !CarDataHandler.getCarList().isEmpty() && CarDataHandler.getCarList().containsKey(id)) {
-            CarDataHandler.editCar(id, marke, modell, gewicht, leistung, drehmoment, farbe, tueren, klasse, motor_art);
+        if (id != null && !carDataHandler.getCarList().isEmpty() && carDataHandler.getCarList().containsKey(id)) {
+            carDataHandler.editCar(id, marke, modell, gewicht, leistung, drehmoment, farbe, tueren, klasse, motor_art);
         }
         return new ResponseEntity<>("Properties added!", HttpStatus.OK);
     }
@@ -77,14 +85,14 @@ public class CarController {
         if (car.getId() == null) {
             return new ResponseEntity<>("No ID", HttpStatus.BAD_REQUEST);
         }
-        if (CarDataHandler.getCarList().isEmpty()) {
+        if (carDataHandler.getCarList().isEmpty()) {
             return new ResponseEntity<>("No Cars", HttpStatus.NOT_FOUND);
         }
-        if (!CarDataHandler.getCarList().containsKey(car.getId())) {
+        if (!carDataHandler.getCarList().containsKey(car.getId())) {
             return new ResponseEntity<>("No Car with this id", HttpStatus.NOT_FOUND);
         }
-        if (car.getId() != null && !CarDataHandler.getCarList().isEmpty() && CarDataHandler.getCarList().containsKey(car.getId())) {
-            CarDataHandler.editCar(car);
+        if (car.getId() != null && !carDataHandler.getCarList().isEmpty() && carDataHandler.getCarList().containsKey(car.getId())) {
+            carDataHandler.editCar(car);
         }
         return new ResponseEntity<>("Properties added!", HttpStatus.OK);
     }
@@ -92,24 +100,24 @@ public class CarController {
     //DELETE Car with parameter id
     @RequestMapping(method = RequestMethod.DELETE, value = "/delete", consumes = APPLICATION_FORM_URLENCODED_VALUE)
     public ResponseEntity<String> deleteCar(@RequestParam int id) {
-        if (CarDataHandler.getCarList().isEmpty()) {
+        if (carDataHandler.getCarList().isEmpty()) {
             return new ResponseEntity<>("No Cars", HttpStatus.NOT_FOUND);
-        } else if (!CarDataHandler.getCarList().containsKey(id)) {
+        } else if (!carDataHandler.getCarList().containsKey(id)) {
             return new ResponseEntity<>("Id is invalid", HttpStatus.NOT_FOUND);
         }
-        CarDataHandler.deleteCar(id);
+        carDataHandler.deleteCar(id);
         return new ResponseEntity<>("Removed!", HttpStatus.NO_CONTENT);
     }
 
     //DELETE Car with json
     @RequestMapping(method = RequestMethod.DELETE, value = "/delete", consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<String> deleteCarJSON(@RequestBody Car car) {
-        if (CarDataHandler.getCarList().isEmpty()) {
+        if (carDataHandler.getCarList().isEmpty()) {
             return new ResponseEntity<>("No Cars", HttpStatus.NOT_FOUND);
-        } else if (!CarDataHandler.getCarList().containsKey(car.getId())) {
+        } else if (!carDataHandler.getCarList().containsKey(car.getId())) {
             return new ResponseEntity<>("Id is invalid", HttpStatus.NOT_FOUND);
         }
-        CarDataHandler.deleteCar(car.getId());
+        carDataHandler.deleteCar(car.getId());
         return new ResponseEntity<>("Removed!", HttpStatus.NO_CONTENT);
     }
 }

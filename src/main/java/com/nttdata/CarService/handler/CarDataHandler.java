@@ -1,16 +1,18 @@
 package com.nttdata.CarService.handler;
 
 import com.nttdata.CarService.entity.Car;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 
+@Component
 public class CarDataHandler {
 
-    static HashMap<Integer, Car> carList = new HashMap<Integer, Car>();
+    static HashMap<Integer, Car> carList = new HashMap<>();
 
     private static int id;
 
-    public static int createCar(String marke, String modell,
+    public Car createCar(String marke, String modell,
                                  Integer gewicht, Integer leistung, String farbe,
                                  String klasse, Integer tueren, Integer drehmoment, String motor_art) {
         Car car = new Car();
@@ -33,19 +35,27 @@ public class CarDataHandler {
             car.setMotor_art(motor_art);
         }
         carList.put(car.getId(), car);
-        return car.getId();
+        return car;
     }
 
     //create Car with JSON
-    public static int createCar(Car car) {
-        car.setId(id ++);
+    public Car createCar(Car car) {
+        if (car.getId() != null && !carList.containsKey(car.getId())){
+            car.setId(car.getId());
+        } else {
+            car.setId(id++);
+        }
         carList.put(car.getId(), car);
-        return car.getId();
+        return car;
     }
 
-    public static void editCar(Integer id, String marke, String modell, Integer gewicht,
+    public void editCar(Integer id, String marke, String modell, Integer gewicht,
                                Integer leistung, Integer drehmoment, String farbe,
                                Integer tueren, String klasse, String motor_art) {
+
+        if(id == null || !carList.containsKey(id)){
+            return;
+        }
 
         if (marke != null) {
             carList.get(id).setMarke(marke);
@@ -77,7 +87,10 @@ public class CarDataHandler {
     }
 
     //edit Car with JSON
-    public static void editCar(Car car) {
+    public Car editCar(Car car) {
+        if(car.getId() == null || !carList.containsKey(car.getId())){
+            return null;
+        }
         if (car.getMarke() != null) {
             carList.get(car.getId()).setMarke(car.getMarke());
         }
@@ -105,19 +118,19 @@ public class CarDataHandler {
         if (car.getMotor_art() != null) {
             carList.get(car.getId()).setMotor_art(car.getMotor_art());
         }
+        return car;
     }
 
-    public static void deleteCar(Integer id) {
+    public void deleteCar(Integer id) {
         carList.remove(id);
     }
 
-    public static HashMap<Integer, Car> getCarList() {
+    public HashMap<Integer, Car> getCarList() {
         return carList;
     }
 
-    public static void setCarList(HashMap<Integer, Car> carList) {
+    public void setCarList(HashMap<Integer, Car> carList) {
         CarDataHandler.carList = carList;
     }
-
 
 }

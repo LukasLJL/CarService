@@ -1,25 +1,39 @@
 package com.nttdata.CarService.entity;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(description = "Car")
 public class Car {
 
+    @ApiModelProperty(notes = "ID of car", example = "1", position = 0)
     private Integer id;
+    @ApiModelProperty(notes = "brand of a car", example = "Volkswagen", position = 1)
     private String marke;
-    private String modell;
+    @ApiModelProperty(notes = "model", example = "Golf", position = 2)
+    private String model;
+    @ApiModelProperty(notes = "weight of a car", example = "1540", position = 3)
     private int gewicht;
+    @ApiModelProperty(notes = "power of a car", example = "120", position = 4)
     private int leistung;
+    @ApiModelProperty(notes = "torque of a car", example = "220", position = 5)
     private int drehmoment;
+    @ApiModelProperty(notes = "color of a car", example = "blue", position = 6)
     private String farbe;
+    @ApiModelProperty(notes = "number of doors", example = "3", position = 7)
     private int tueren;
+    @ApiModelProperty(notes = "car typ", example = "Cabrio", position = 8)
     private String klasse;
+    @ApiModelProperty(notes = "motor typ", example = "diesel", position = 9)
     private String motor_art;
 
     public Car() {
 
     }
 
-    public Car(String marke, String modell, int gewicht, int leistung, int drehmoment, String farbe, int tueren, String klasse, String motor_art) {
+    public Car(String marke, String model, int gewicht, int leistung, int drehmoment, String farbe, int tueren, String klasse, String motor_art) {
         this.marke = marke;
-        this.modell = modell;
+        this.model = model;
         this.gewicht = gewicht;
         this.leistung = leistung;
         this.drehmoment = drehmoment;
@@ -45,12 +59,12 @@ public class Car {
         this.marke = marke;
     }
 
-    public String getModell() {
-        return modell;
+    public String getModel() {
+        return model;
     }
 
-    public void setModell(String modell) {
-        this.modell = modell;
+    public void setModel(String model) {
+        this.model = model;
     }
 
     public int getGewicht() {

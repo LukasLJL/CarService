@@ -10,10 +10,17 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 
+import java.util.HashMap;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.*;
 
 class CarControllerTest {
+
+    @Mock
+    HashMap<Integer, Car> carList;
 
     @InjectMocks
     static CarController carController;
@@ -22,63 +29,142 @@ class CarControllerTest {
     static CarDataHandler carDataHandler;
 
     @BeforeAll
-    static void init(){
+    static void init() {
         carDataHandler = Mockito.mock(CarDataHandler.class);
         carController = new CarController(carDataHandler);
     }
 
     @Test
     void createCar() {
-        Car car = new Car();
-        car.setMarke("BMW");
-        car.setModell("M4");
-        car.setLeistung(480);
-        car.setFarbe("schwarz");
-        Mockito.when(carDataHandler.createCar(any(Car.class))).thenReturn(car);
-        assertEquals(HttpStatus.CREATED, carController.createCar(car).getStatusCode());
+        //setup mock car
+        Car emptyCar = mock(Car.class);
+        when(emptyCar.getId()).thenReturn(42);
+
+        when(carDataHandler.createCar(any(Car.class))).thenReturn(emptyCar);
+        assertEquals(HttpStatus.CREATED, carController.createCar(emptyCar).getStatusCode());
     }
 
     @Test
     void listSelectedCar() {
+        //setup mock car
+        Car emptyCar = mock(Car.class);
+        assertEquals(null, carController.listSelectedCar((emptyCar.getId())));
     }
 
 
-    @Test
-    @Disabled
-    void addCarProperties() {
-        Car car = new Car();
-        car.setMarke("BMW");
-        car.setModell("M4");
-        car.setLeistung(480);
-        car.setFarbe("schwarz");
-        Mockito.when(carDataHandler.createCar(any(Car.class))).thenReturn(car);
-        assertEquals(HttpStatus.CREATED, carController.createCar(car).getStatusCode());
+    @Nested
+    class editCar {
 
-        Car updatedCar = new Car();
-        updatedCar.setId(carDataHandler.getCarList().get(car.getId()).getId());
-        updatedCar.setMarke("BMW");
-        updatedCar.setModell("M4");
-        updatedCar.setLeistung(480);
-        updatedCar.setFarbe("schwarz");
-        Mockito.when(carDataHandler.editCar(any(Car.class))).thenReturn(updatedCar);
-        assertEquals(HttpStatus.OK, carController.addCarProperties(updatedCar).getStatusCode());
+        @Test
+        void editCar() {
+            //setup mock car
+            Car emptyCar = mock(Car.class);
+            when(emptyCar.getId()).thenReturn(42);
+
+            //fix errors in Controller function
+            HashMap<Integer, Car> carList = Mockito.mock(HashMap.class);
+            when(carList.isEmpty()).thenReturn(false);
+            when(carList.containsKey(anyInt())).thenReturn(true);
+            when(carDataHandler.getCarList()).thenReturn(carList);
+
+            //check if all is true, that it works
+            assertEquals(HttpStatus.OK, carController.addCarProperties(emptyCar).getStatusCode());
+        }
+
+        @Test
+        void editCar_InvalidID() {
+            //setup mock car
+            Car emptyCar = mock(Car.class);
+            when(emptyCar.getId()).thenReturn(42);
+
+            HashMap<Integer, Car> carList = Mockito.mock(HashMap.class);
+            when(carList.isEmpty()).thenReturn(false);
+            when(carList.containsKey(anyInt())).thenReturn(false);
+            when(carDataHandler.getCarList()).thenReturn(carList);
+
+            assertEquals(HttpStatus.NOT_FOUND, carController.addCarProperties(emptyCar).getStatusCode());
+
+        }
+
+        @Test
+        void editCar_CarListEmpty() {
+            //setup mock car
+            Car emptyCar = mock(Car.class);
+            when(emptyCar.getId()).thenReturn(42);
+
+            HashMap<Integer, Car> carList = Mockito.mock(HashMap.class);
+            when(carList.isEmpty()).thenReturn(true);
+            when(carList.containsKey(anyInt())).thenReturn(false);
+            when(carDataHandler.getCarList()).thenReturn(carList);
+
+            assertEquals(HttpStatus.NOT_FOUND, carController.addCarProperties(emptyCar).getStatusCode());
+
+        }
+
+        @Test
+        void editCar_withoutID() {
+            //setup mock car
+            Car emptyCar = mock(Car.class);
+            when(emptyCar.getId()).thenReturn(null);
+
+            HashMap<Integer, Car> carList = Mockito.mock(HashMap.class);
+            when(carList.isEmpty()).thenReturn(false);
+            when(carList.containsKey(anyInt())).thenReturn(true);
+            when(carDataHandler.getCarList()).thenReturn(carList);
+
+            assertEquals(HttpStatus.BAD_REQUEST, carController.addCarProperties(emptyCar).getStatusCode());
+
+        }
     }
 
-    @Test
-    @Disabled
-    void deleteCarJSON() {
-        Car car = new Car();
-        car.setMarke("BMW");
-        car.setModell("M4");
-        car.setLeistung(480);
-        car.setFarbe("schwarz");
-        Mockito.when(carDataHandler.createCar(any(Car.class))).thenReturn(car);
-        assertEquals(HttpStatus.CREATED, carController.createCar(car).getStatusCode());
 
-        Car deleteCar = new Car();
-        deleteCar.setId(carDataHandler.getCarList().get(car.getId()).getId());
-        //Mockito.when(carDataHandler.deleteCar(car.getId()));
-        //Mockito.doThrow(carDataHandler.deleteCar(car.getId())).
-        assertEquals(HttpStatus.NO_CONTENT, carController.deleteCarJSON(deleteCar));
+    @Nested
+    class deleteCar {
+        @Test
+        void deleteCar() {
+            //setup Mock Hashmap to avoid error in deleteCar function from Controller
+            HashMap<Integer, Car> carList = Mockito.mock(HashMap.class);
+            when(carList.isEmpty()).thenReturn(false);
+            when(carList.containsKey(anyInt())).thenReturn(true);
+
+            //setup empty mock Car
+            Car emptyCar = mock(Car.class);
+            when(emptyCar.getId()).thenReturn(7);
+
+            //successfully deleted
+            when(carDataHandler.getCarList()).thenReturn(carList);
+            assertEquals(HttpStatus.NO_CONTENT, carController.deleteCarJSON(emptyCar).getStatusCode());
+        }
+
+        @Test
+        void deleteCar_InvalidID() {
+            //setup empty mock Car
+            Car emptyCar = mock(Car.class);
+            when(emptyCar.getId()).thenReturn(7);
+
+            HashMap<Integer, Car> carList = Mockito.mock(HashMap.class);
+
+            when(carList.isEmpty()).thenReturn(false);
+            when(carList.containsKey(anyInt())).thenReturn(false);
+
+            when(carDataHandler.getCarList()).thenReturn(carList);
+            assertEquals(HttpStatus.NOT_FOUND, carController.deleteCarJSON(emptyCar).getStatusCode());
+        }
+
+        @Test
+        void deleteCar_NoCarToDelete() {
+            //setup empty mock Car
+            Car emptyCar = mock(Car.class);
+            when(emptyCar.getId()).thenReturn(7);
+
+            HashMap<Integer, Car> carList = Mockito.mock(HashMap.class);
+
+            when(carList.isEmpty()).thenReturn(true);
+            when(carList.containsKey(anyInt())).thenReturn(false);
+
+            when(carDataHandler.getCarList()).thenReturn(carList);
+            assertEquals(HttpStatus.NOT_FOUND, carController.deleteCarJSON(emptyCar).getStatusCode());
+        }
     }
+
 }

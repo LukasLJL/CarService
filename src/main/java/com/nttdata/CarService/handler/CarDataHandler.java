@@ -16,33 +16,9 @@ public class CarDataHandler {
 
     private static int id;
 
-    public Car createCar(String marke, String modell,
-                         Integer gewicht, Integer leistung, String farbe,
-                         String klasse, Integer tueren, Integer drehmoment, String motor_art) {
-        Car car = new Car();
-        car.setId(id++);
-        car.setMarke(marke);
-        car.setModell(modell);
-        car.setGewicht(gewicht);
-        car.setLeistung(leistung);
-        car.setFarbe(farbe);
-        if (drehmoment != null) {
-            car.setDrehmoment(drehmoment);
-        }
-        if (klasse != null) {
-            car.setKlasse(klasse);
-        }
-        if (tueren != null) {
-            car.setTueren(tueren);
-        }
-        if (motor_art != null) {
-            car.setMotor_art(motor_art);
-        }
-        carList.put(car.getId(), car);
-        LOGGER.info("DATA | Created Car with ID:" + car.getId());
-
-        return car;
-    }
+    /*
+    JSON Handling
+     */
 
     //create Car with JSON
     public Car createCar(Car car) {
@@ -56,55 +32,6 @@ public class CarDataHandler {
         return car;
     }
 
-    public void editCar(Integer id, String marke, String modell, Integer gewicht,
-                        Integer leistung, Integer drehmoment, String farbe,
-                        Integer tueren, String klasse, String motor_art) {
-        String newContent = "";
-
-        if (id == null || !carList.containsKey(id)) {
-            LOGGER.error("DATA | No Car ID!");
-            return;
-        }
-
-        if (marke != null) {
-            carList.get(id).setMarke(marke);
-            newContent += "marke: " + marke + " // ";
-        }
-        if (modell != null) {
-            carList.get(id).setModell(modell);
-            newContent += "modell: " + modell + " // ";
-        }
-        if (gewicht != null && gewicht != 0) {
-            carList.get(id).setGewicht(gewicht);
-            newContent += "gewicht: " + gewicht + " // ";
-        }
-        if (leistung != null && leistung != 0) {
-            carList.get(id).setLeistung(leistung);
-            newContent += "leistung: " + leistung + " // ";
-        }
-        if (drehmoment != null && drehmoment != 0) {
-            carList.get(id).setDrehmoment(drehmoment);
-            newContent += "drehmoment: " + drehmoment + " // ";
-        }
-        if (farbe != null) {
-            carList.get(id).setFarbe(farbe);
-            newContent += "farbe: " + farbe + " // ";
-        }
-        if (tueren != null && tueren != 0) {
-            carList.get(id).setTueren(tueren);
-            newContent += "türen: " + tueren + " // ";
-        }
-        if (klasse != null) {
-            carList.get(id).setKlasse(klasse);
-            newContent += "klasse: " + klasse + " // ";
-        }
-        if (motor_art != null) {
-            carList.get(id).setMotor_art(motor_art);
-            newContent += "motor-art: " + motor_art;
-        }
-        LOGGER.info("DATA | Changed properties of car with ID: " + carList.get(id).getId() + " // " + newContent);
-    }
-
     //edit Car with JSON
     public Car editCar(Car car) {
         String newContent = "";
@@ -116,9 +43,9 @@ public class CarDataHandler {
             carList.get(car.getId()).setMarke(car.getMarke());
             newContent += "marke: " + car.getMarke() + " // ";
         }
-        if (car.getModell() != null) {
-            carList.get(car.getId()).setModell(car.getModell());
-            newContent += "modell: " + car.getModell() + " // ";
+        if (car.getModel() != null) {
+            carList.get(car.getId()).setModel(car.getModel());
+            newContent += "model: " + car.getModel() + " // ";
         }
         if (car.getGewicht() != 0) {
             carList.get(car.getId()).setGewicht(car.getGewicht());
@@ -162,4 +89,84 @@ public class CarDataHandler {
         return carList;
     }
 
+    /*
+    Handling for LEGACY Parameter style
+     */
+
+    public Car createCar(String marke, String model,
+                         Integer gewicht, Integer leistung, String farbe,
+                         String klasse, Integer tueren, Integer drehmoment, String motor_art) {
+        Car car = new Car();
+        car.setId(id++);
+        car.setMarke(marke);
+        car.setModel(model);
+        car.setGewicht(gewicht);
+        car.setLeistung(leistung);
+        car.setFarbe(farbe);
+        if (drehmoment != null) {
+            car.setDrehmoment(drehmoment);
+        }
+        if (klasse != null) {
+            car.setKlasse(klasse);
+        }
+        if (tueren != null) {
+            car.setTueren(tueren);
+        }
+        if (motor_art != null) {
+            car.setMotor_art(motor_art);
+        }
+        carList.put(car.getId(), car);
+        LOGGER.info("DATA | Created Car with ID:" + car.getId());
+
+        return car;
+    }
+
+    public void editCar(Integer id, String marke, String model, Integer gewicht,
+                        Integer leistung, Integer drehmoment, String farbe,
+                        Integer tueren, String klasse, String motor_art) {
+        String newContent = "";
+
+        if (id == null || !carList.containsKey(id)) {
+            LOGGER.error("DATA | No Car ID!");
+            return;
+        }
+
+        if (marke != null) {
+            carList.get(id).setMarke(marke);
+            newContent += "marke: " + marke + " // ";
+        }
+        if (model != null) {
+            carList.get(id).setModel(model);
+            newContent += "model: " + model + " // ";
+        }
+        if (gewicht != null && gewicht != 0) {
+            carList.get(id).setGewicht(gewicht);
+            newContent += "gewicht: " + gewicht + " // ";
+        }
+        if (leistung != null && leistung != 0) {
+            carList.get(id).setLeistung(leistung);
+            newContent += "leistung: " + leistung + " // ";
+        }
+        if (drehmoment != null && drehmoment != 0) {
+            carList.get(id).setDrehmoment(drehmoment);
+            newContent += "drehmoment: " + drehmoment + " // ";
+        }
+        if (farbe != null) {
+            carList.get(id).setFarbe(farbe);
+            newContent += "farbe: " + farbe + " // ";
+        }
+        if (tueren != null && tueren != 0) {
+            carList.get(id).setTueren(tueren);
+            newContent += "türen: " + tueren + " // ";
+        }
+        if (klasse != null) {
+            carList.get(id).setKlasse(klasse);
+            newContent += "klasse: " + klasse + " // ";
+        }
+        if (motor_art != null) {
+            carList.get(id).setMotor_art(motor_art);
+            newContent += "motor-art: " + motor_art;
+        }
+        LOGGER.info("DATA | Changed properties of car with ID: " + carList.get(id).getId() + " // " + newContent);
+    }
 }

@@ -4,6 +4,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+/**
+ * start page
+ * @author Lukas
+ */
 @EnableSwagger2
 @RestController
 public class StartController {

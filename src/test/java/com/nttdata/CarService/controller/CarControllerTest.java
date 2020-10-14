@@ -17,7 +17,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
-class CarControllerTest {
+public class CarControllerTest {
 
     @Mock
     HashMap<Integer, Car> carList;

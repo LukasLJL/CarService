@@ -7,10 +7,20 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 
+/**
+ * DataHandler for the REST API <br>
+ * Managing how the data has to been stored for the API <br>
+ *
+ * @author Lukas
+ */
 @Component
 public class CarDataHandler {
 
+    /**
+     * Hashmap to store data
+     */
     static HashMap<Integer, Car> carList = new HashMap<>();
+
     private static final Logger LOGGER = LogManager.getLogger(CarDataHandler.class);
 
 
@@ -20,6 +30,15 @@ public class CarDataHandler {
     JSON Handling
      */
 
+
+    /**
+     * create car <br>
+     * car will be stored in the 'database'<br>
+     *
+     * @param car
+     * @return car
+     * @since 1.1
+     */
     //create Car with JSON
     public Car createCar(Car car) {
         if (car.getId() != null && !carList.containsKey(car.getId())) {
@@ -32,6 +51,13 @@ public class CarDataHandler {
         return car;
     }
 
+    /**
+     * edit properties of a car
+     *
+     * @param car
+     * @return car
+     * @since 1.1
+     */
     //edit Car with JSON
     public Car editCar(Car car) {
         String newContent = "";
@@ -79,6 +105,11 @@ public class CarDataHandler {
         return car;
     }
 
+    /**
+     * delete a car from the 'database'<br>
+     *
+     * @param id
+     */
     public void deleteCar(Integer id) {
         carList.remove(id);
         LOGGER.info("DATA | Removed Car with ID: " + id);
@@ -93,6 +124,25 @@ public class CarDataHandler {
     Handling for LEGACY Parameter style
      */
 
+    /**
+     * --- LEGACY --- <br>
+     * create car <br>
+     * car will be stored in the 'database'<br>
+     *
+     * @param marke      - brand
+     * @param model      - model
+     * @param gewicht    - weight
+     * @param leistung   - power
+     * @param drehmoment - torque
+     * @param farbe      - color
+     * @param tueren     - number of doors
+     * @param klasse     - car typ (cabrio, sport, coupe)
+     * @param motor_art  - engine typ (diesel, gasoline, electric)
+     * @return
+     * @since 1.0
+     * @deprecated
+     */
+    @Deprecated
     public Car createCar(String marke, String model,
                          Integer gewicht, Integer leistung, String farbe,
                          String klasse, Integer tueren, Integer drehmoment, String motor_art) {
@@ -121,6 +171,24 @@ public class CarDataHandler {
         return car;
     }
 
+    /**
+     * --- LEGACY ---<br>
+     * edit properties of a car
+     *
+     * @param id         - id (required)
+     * @param marke      - brand
+     * @param model      - model
+     * @param gewicht    - weight
+     * @param leistung   - power
+     * @param drehmoment - torque
+     * @param farbe      - color
+     * @param tueren     - number of doors
+     * @param klasse     - car typ (cabrio, sport, coupe)
+     * @param motor_art  - engine typ (diesel, gasoline, electric)
+     * @since 1.0
+     * @deprecated
+     */
+    @Deprecated
     public void editCar(Integer id, String marke, String model, Integer gewicht,
                         Integer leistung, Integer drehmoment, String farbe,
                         Integer tueren, String klasse, String motor_art) {

@@ -15,6 +15,14 @@ import java.util.HashMap;
 
 import static org.springframework.http.MediaType.*;
 
+/**
+ * Car Controller
+ * <p>
+ * Handling all the CRUD REST Requests <br>
+ * Main controller for the API <br>
+ *
+ * @author Lukas
+ */
 @Controller
 @RequestMapping("/car")
 public class CarController {
@@ -31,11 +39,19 @@ public class CarController {
     JSON INPUT FOR API
      */
 
-    /*
-    POST Create Car
+    /**
+     * POST Request | Create Car with JSON <br>
+     *
+     * @param car
+     * @return ResponseEntity
      */
     @ApiOperation(value = "Create a Car", notes = "Provide a JSON Car Object to create a new car")
-
+    @ApiResponses(
+            value = {
+                    @ApiResponse(code = 201, message = "Created Car")
+            }
+    )
+    @ResponseStatus(code = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST, value = "/create", consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createCar(@RequestBody Car car) {
         LOGGER.debug("POST Request | JSON Object");
@@ -44,8 +60,10 @@ public class CarController {
         return new ResponseEntity<>("Created Car with ID: " + car.getId(), HttpStatus.CREATED);
     }
 
-    /*
-    List all cars
+    /**
+     * GET Request | List all cars <br>
+     *
+     * @return carList
      */
     @ApiOperation(value = "List all Cars", notes = "List all Cars as a json")
     @GetMapping("/list")
@@ -55,8 +73,11 @@ public class CarController {
         return carDataHandler.getCarList();
     }
 
-    /*
-    List selected car
+    /**
+     * GET Request | List selected car <br>
+     *
+     * @param id
+     * @return car
      */
     @ApiOperation(value = "List selected car", notes = "List selected car as a json")
     @GetMapping("/list/{id}")
@@ -66,8 +87,12 @@ public class CarController {
         return carDataHandler.getCarList().get(id);
     }
 
-    /*
-    PUT edit Car with json
+    /**
+     * PUT Request | Edit car with JSON <br>
+     * ID is required to change or add properties of the car <br>
+     *
+     * @param car
+     * @return ResponseEntity
      */
     @ApiOperation(value = "Add or change properties of a car", notes = "Provide a valid ID to change or add properties to an exiting car")
     @ApiResponses(
@@ -100,8 +125,11 @@ public class CarController {
         return new ResponseEntity<>("Properties added!", HttpStatus.OK);
     }
 
-    /*
-    DELETE Car with parameter id
+    /**
+     * DELETE Request | Delete Car with id parameter <br>
+     *
+     * @param id
+     * @return ResponseEntity
      */
     @RequestMapping(method = RequestMethod.DELETE, value = "/delete", consumes = APPLICATION_FORM_URLENCODED_VALUE)
     @ApiOperation(value = "Delete Car", notes = "Delete a selected Car with an ID", hidden = true)
@@ -122,10 +150,20 @@ public class CarController {
         return new ResponseEntity<>("Removed!", HttpStatus.NO_CONTENT);
     }
 
-    /*
-    DELETE Car with json
+    /**
+     * DELETE Request | Delete a car with JSON <br>
+     * Only ID is required <br>
+     *
+     * @param car
+     * @return ResponseEntity
      */
     @ApiOperation(value = "Delete Car", notes = "Delete a selected Car with an ID")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(code = 204, message = "Removed!"),
+                    @ApiResponse(code = 404, message = "Invalid ID / No Car found with ID"),
+            }
+    )
     @RequestMapping(method = RequestMethod.DELETE, value = "/delete", consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<String> deleteCarJSON(@RequestBody Car car) {
         LOGGER.debug("DELETE Request | delete selected car");
@@ -141,15 +179,30 @@ public class CarController {
         return new ResponseEntity<>("Removed!", HttpStatus.NO_CONTENT);
     }
 
+
     /*
     LEGACY // USE API WITH PARAMETER
     OUTDATED
     OUTDATED
      */
 
-    /*
-    POST create Car with parameters
+    /**
+     * POST Request | Create car with parameter <br>
+     *
+     * @param marke      - brand
+     * @param model      - model
+     * @param gewicht    - weight
+     * @param leistung   - power
+     * @param drehmoment - torque
+     * @param farbe      - color
+     * @param tueren     - number of doors
+     * @param klasse     - car typ (cabrio, sport, coupe)
+     * @param motor_art  - engine typ (diesel, gasoline, electric)
+     * @return ResponseEntity
+     * @since 1.0
+     * @deprecated
      */
+    @Deprecated
     @RequestMapping(method = RequestMethod.POST, value = "/create", consumes = APPLICATION_FORM_URLENCODED_VALUE)
     @ApiOperation(value = "Create a Car", hidden = true)
     public ResponseEntity<String> createCar(@RequestParam String marke, @RequestParam String model,
@@ -165,12 +218,25 @@ public class CarController {
         return new ResponseEntity<>("Created Car with ID: " + newCar.getId(), HttpStatus.CREATED);
     }
 
-
-
-    /*
-        PUT edit Car with parameters
+    /**
+     * PUT Request | Edit car with parameter <br>
+     * ID is required to change or add properties of the car <br>
+     *
+     * @param id         - ID
+     * @param marke      - brand
+     * @param model      - model
+     * @param gewicht    - weight
+     * @param leistung   - power
+     * @param drehmoment - torque
+     * @param farbe      - color
+     * @param tueren     - number of doors
+     * @param klasse     - car typ (cabrio, sport, coupe)
+     * @param motor_art  - engine typ (diesel, gasoline, electric)
+     * @return ResponseEntity
+     * @since 1.0
+     * @deprecated
      */
-
+    @Deprecated
     @ApiOperation(value = "Add or change properties of a car (parameter)", notes = "Provide a valid ID to change or add properties to an exiting car", hidden = true)
     @ApiResponses(
             value = {

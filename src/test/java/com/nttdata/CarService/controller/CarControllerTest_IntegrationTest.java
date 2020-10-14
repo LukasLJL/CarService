@@ -12,7 +12,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class CarControllerTest_IntegrationTest {
+@Disabled
+public class CarControllerTest_IntegrationTest {
 
     //JSON TESTING
 

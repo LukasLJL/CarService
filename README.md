@@ -5,6 +5,7 @@ A simple CRUD REST API in spring boot which can create Cars. You can create, edi
 - [Requirements](#Requirements)
 - [Setup](#Setup)
 - [How to use](#HowToUse)
+- [Doc](#Doc)
 ## Requirements
 - Java 8 or higher
 - Maven 3.6.3 or higher
@@ -22,12 +23,15 @@ A simple CRUD REST API in spring boot which can create Cars. You can create, edi
 This script will create some sample data*
 ## HowToUse
 A Car can have to following properties:
-- marke
-- modell
-- gewicht
-- leistung
-- drehmoment
-- farbe
-- tueren
-- klasse
-- motor_art
+- marke - brand
+- model - model 
+- gewicht - weight
+- leistung - power
+- drehmoment - torque
+- farbe - color
+- tueren - number of doors
+- klasse - car typ (cabrio, coupe, etc.)
+- motor_art - engine typ (diesel, gasoline, electric)
+## Doc
+- you can generate a javadoc with ``mvn javadoc:javadoc`` in the project folder. The javadoc files will be generated in ``./target/site/apidocs``
+- also, you can use Swagger ``http://localhost:8080/swagger-ui``

@@ -31,7 +31,7 @@ public class CarControllerTest_IntegrationTest {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<String> request = new HttpEntity<String>(testCar.toString(), headers);
+        HttpEntity<String> request = new HttpEntity<>(testCar.toString(), headers);
 
         ResponseEntity<String> result = restTemplate.postForEntity(baseUrl, request, String.class);
     }
@@ -50,7 +50,7 @@ public class CarControllerTest_IntegrationTest {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<String> request = new HttpEntity<String>(car.toString(), headers);
+        HttpEntity<String> request = new HttpEntity<>(car.toString(), headers);
 
         try {
             ResponseEntity<String> result = restTemplate.exchange(baseUrl, HttpMethod.PUT, request, String.class);
@@ -72,9 +72,9 @@ public class CarControllerTest_IntegrationTest {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<String> request = new HttpEntity<String>(car.toString(), headers);
+        HttpEntity<String> request = new HttpEntity<>(car.toString(), headers);
         ResponseEntity<String> result = restTemplate.postForEntity(baseUrl, request, String.class);
-        HttpEntity<String> request2 = new HttpEntity<String>(car.toString(), headers);
+        HttpEntity<String> request2 = new HttpEntity<>(car.toString(), headers);
         ResponseEntity<String> result2 = restTemplate.postForEntity(baseUrl, request2, String.class);
 
         Assertions.assertEquals(HttpStatus.CREATED, result.getStatusCode());
@@ -109,9 +109,9 @@ public class CarControllerTest_IntegrationTest {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<String> request_noID = new HttpEntity<String>(car1.toString(), headers);
-        HttpEntity<String> request_invID = new HttpEntity<String>(car2.toString(), headers);
-        HttpEntity<String> request_realID = new HttpEntity<String>(car3.toString(), headers);
+        HttpEntity<String> request_noID = new HttpEntity<>(car1.toString(), headers);
+        HttpEntity<String> request_invID = new HttpEntity<>(car2.toString(), headers);
+        HttpEntity<String> request_realID = new HttpEntity<>(car3.toString(), headers);
 
 
         //test real id
@@ -154,12 +154,12 @@ public class CarControllerTest_IntegrationTest {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         //test for valid id
-        HttpEntity<String> request = new HttpEntity<String>(car1.toString(), headers);
+        HttpEntity<String> request = new HttpEntity<>(car1.toString(), headers);
         ResponseEntity<String> result = restTemplate.exchange(baseUrl, HttpMethod.DELETE, request, String.class);
         Assertions.assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
 
         //test for invalid id
-        HttpEntity<String> request2 = new HttpEntity<String>(car2.toString(), headers);
+        HttpEntity<String> request2 = new HttpEntity<>(car2.toString(), headers);
         try {
             ResponseEntity<String> result2 = restTemplate.exchange(baseUrl, HttpMethod.DELETE, request2, String.class);
             fail();

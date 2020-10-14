@@ -42,7 +42,7 @@ public class CarController {
     /**
      * POST Request | Create Car with JSON <br>
      *
-     * @param car
+     * @param car car Object
      * @return ResponseEntity
      */
     @ApiOperation(value = "Create a Car", notes = "Provide a JSON Car Object to create a new car")
@@ -76,7 +76,7 @@ public class CarController {
     /**
      * GET Request | List selected car <br>
      *
-     * @param id
+     * @param id car id to select car
      * @return car
      */
     @ApiOperation(value = "List selected car", notes = "List selected car as a json")
@@ -91,7 +91,7 @@ public class CarController {
      * PUT Request | Edit car with JSON <br>
      * ID is required to change or add properties of the car <br>
      *
-     * @param car
+     * @param car car object
      * @return ResponseEntity
      */
     @ApiOperation(value = "Add or change properties of a car", notes = "Provide a valid ID to change or add properties to an exiting car")
@@ -128,7 +128,7 @@ public class CarController {
     /**
      * DELETE Request | Delete Car with id parameter <br>
      *
-     * @param id
+     * @param id car id to delete selected car
      * @return ResponseEntity
      */
     @RequestMapping(method = RequestMethod.DELETE, value = "/delete", consumes = APPLICATION_FORM_URLENCODED_VALUE)
@@ -154,7 +154,7 @@ public class CarController {
      * DELETE Request | Delete a car with JSON <br>
      * Only ID is required <br>
      *
-     * @param car
+     * @param car car object
      * @return ResponseEntity
      */
     @ApiOperation(value = "Delete Car", notes = "Delete a selected Car with an ID")

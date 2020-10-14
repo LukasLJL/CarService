@@ -21,7 +21,7 @@ public class CarDataHandlerTest {
     @Nested
     class createCar {
         @Test
-        void createCar() {
+        void createCar_normal() {
             Car car = new Car();
             car.setMarke("Mercedes");
             car.setModel("CL");
@@ -64,7 +64,7 @@ public class CarDataHandlerTest {
     @Nested
     class editCar {
         @Test
-        void editCar() {
+        void editCar_normal(){
             Car car = new Car();
             car.setMarke("VW");
             car.setModel("Golf");

@@ -35,7 +35,7 @@ public class CarDataHandler {
      * create car <br>
      * car will be stored in the 'database'<br>
      *
-     * @param car
+     * @param car car object
      * @return car
      * @since 1.1
      */
@@ -53,8 +53,9 @@ public class CarDataHandler {
 
     /**
      * edit properties of a car
+     * ID is required
      *
-     * @param car
+     * @param car car object
      * @return car
      * @since 1.1
      */
@@ -108,7 +109,7 @@ public class CarDataHandler {
     /**
      * delete a car from the 'database'<br>
      *
-     * @param id
+     * @param id car id to delete car
      */
     public void deleteCar(Integer id) {
         carList.remove(id);
@@ -138,7 +139,7 @@ public class CarDataHandler {
      * @param tueren     - number of doors
      * @param klasse     - car typ (cabrio, sport, coupe)
      * @param motor_art  - engine typ (diesel, gasoline, electric)
-     * @return
+     * @return car
      * @since 1.0
      * @deprecated
      */

@@ -20,6 +20,15 @@ public class CarDataHandlerTest {
 
     @Nested
     class createCar {
+
+        @BeforeEach
+        void initCar(){
+            Car car = new Car();
+            car.setMarke("Mercedes");
+            car.setModel("CL 500");
+            car.setLeistung(380);
+        }
+
         @Test
         void createCar_normal() {
             Car car = new Car();

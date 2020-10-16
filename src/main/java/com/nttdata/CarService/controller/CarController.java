@@ -35,10 +35,6 @@ public class CarController {
         this.carDataHandler = carDataHandler;
     }
 
-    /*
-    JSON INPUT FOR API
-     */
-
     /**
      * POST Request | Create Car with JSON <br>
      *
@@ -67,10 +63,13 @@ public class CarController {
      */
     @ApiOperation(value = "List all Cars", notes = "List all Cars as a json")
     @GetMapping("/list")
-    public @ResponseBody
-    HashMap<Integer, Car> listCar() {
+    public ResponseEntity<?> listCar(){
+        if(carDataHandler.getCarList().isEmpty()){
+            LOGGER.error("GET Request | Car list is empty");
+            return new ResponseEntity<>("Car list is empty", HttpStatus.NOT_FOUND);
+        }
         LOGGER.debug("GET Request | List all cars");
-        return carDataHandler.getCarList();
+        return new ResponseEntity<>(carDataHandler.getCarList(), HttpStatus.OK);
     }
 
     /**
@@ -81,10 +80,21 @@ public class CarController {
      */
     @ApiOperation(value = "List selected car", notes = "List selected car as a json")
     @GetMapping("/list/{id}")
-    public @ResponseBody
-    Car listSelectedCar(@PathVariable int id) {
-        LOGGER.debug("GET Request | List selected car");
-        return carDataHandler.getCarList().get(id);
+    public ResponseEntity<?> listSelectedCar(@PathVariable Integer id){
+        if (id == null){
+            LOGGER.debug("GET Request | No ID selected");
+            return new ResponseEntity<>("No ID", HttpStatus.BAD_REQUEST);
+        } else if (carDataHandler.getCarList().isEmpty()){
+            LOGGER.debug("GET Request | No Cars");
+            return new ResponseEntity<>("Car list is empty", HttpStatus.NOT_FOUND);
+        } else if (!carDataHandler.getCarList().containsKey(id)){
+            LOGGER.debug("GET Request | Invalid ID / No Car found with ID: " + id);
+            return new ResponseEntity<>("No Car with this id", HttpStatus.NOT_FOUND);
+        } else {
+            LOGGER.debug("GET Request | List selected car");
+        }
+        return new ResponseEntity<>(carDataHandler.getCarList().get(id), HttpStatus.OK);
+
     }
 
     /**
@@ -167,7 +177,11 @@ public class CarController {
     @RequestMapping(method = RequestMethod.DELETE, value = "/delete", consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<String> deleteCarJSON(@RequestBody Car car) {
         LOGGER.debug("DELETE Request | delete selected car");
-        if (carDataHandler.getCarList().isEmpty()) {
+        if(car.getId() == null){
+            LOGGER.error("DELETE Request | No ID");
+            return new ResponseEntity<>("No ID", HttpStatus.BAD_REQUEST);
+        }
+        else if (carDataHandler.getCarList().isEmpty()) {
             LOGGER.error("DELETE Request | No Cars");
             return new ResponseEntity<>("No Cars", HttpStatus.NOT_FOUND);
         } else if (!carDataHandler.getCarList().containsKey(car.getId())) {

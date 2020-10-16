@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.junit.jupiter.DisabledIf;
 
 import java.util.HashMap;
 
@@ -28,41 +29,112 @@ public class CarControllerTest {
     @Mock
     static CarDataHandler carDataHandler;
 
+    @Mock
+    static Car emptyCar;
+
     @BeforeAll
     static void init() {
         carDataHandler = Mockito.mock(CarDataHandler.class);
         carController = new CarController(carDataHandler);
+        emptyCar = Mockito.mock(Car.class);
     }
 
     @Test
+    @DisplayName("Create a test Car")
     void createCar() {
-        //setup mock car
-        Car emptyCar = mock(Car.class);
-        when(emptyCar.getId()).thenReturn(42);
-
         when(carDataHandler.createCar(any(Car.class))).thenReturn(emptyCar);
         assertEquals(HttpStatus.CREATED, carController.createCar(emptyCar).getStatusCode());
     }
 
-    @Test
-    void listSelectedCar() {
-        //setup mock car
-        Car emptyCar = mock(Car.class);
-        assertEquals(null, carController.listSelectedCar((emptyCar.getId())));
+    @Nested
+    @DisplayName("List all Cars")
+    class listAllCars{
+
+        HashMap<Integer, Car> carList = Mockito.mock(HashMap.class);
+
+        @Test
+        @DisplayName("List all cars successfully")
+        void listAllCars_exists(){
+            when(carList.isEmpty()).thenReturn(false);
+            when(carDataHandler.getCarList()).thenReturn(carList);
+
+            assertEquals(HttpStatus.OK, carController.listCar().getStatusCode());
+        }
+
+        @Test
+        @DisplayName("List all cars while no car exists")
+        void listAllCars_EmptyCarList(){
+            when(carList.isEmpty()).thenReturn(true);
+            when(carDataHandler.getCarList()).thenReturn(carList);
+
+            assertEquals(HttpStatus.NOT_FOUND, carController.listCar().getStatusCode());
+        }
     }
 
 
     @Nested
-    class editCar {
+    @DisplayName("List a selected Car")
+    class listSelectedCar{
+
+        HashMap<Integer, Car> carList = Mockito.mock(HashMap.class);
 
         @Test
-        void editCar() {
-            //setup mock car
-            Car emptyCar = mock(Car.class);
-            when(emptyCar.getId()).thenReturn(42);
+        @DisplayName("List a selected car successfully")
+        void listSelectedCar_exits() {
+            when(carList.isEmpty()).thenReturn(false);
+            when(carList.containsKey(anyInt())).thenReturn(true);
+            when(carDataHandler.getCarList()).thenReturn(carList);
 
+            assertEquals(HttpStatus.OK, carController.listSelectedCar((42)).getStatusCode());
+        }
+
+        @Test
+        @DisplayName("List a selected car without providing an ID")
+        void listSelectedCar_WithoutID() {
+            when(carList.isEmpty()).thenReturn(false);
+            when(carList.containsKey(anyInt())).thenReturn(true);
+            when(carDataHandler.getCarList()).thenReturn(carList);
+
+            assertEquals(HttpStatus.BAD_REQUEST, carController.listSelectedCar((null)).getStatusCode());
+        }
+
+        @Test
+        @DisplayName("List a selected car with an Invalid ID")
+        void listSelectedCar_InvalidID() {
+            when(carList.isEmpty()).thenReturn(false);
+            when(carList.containsKey(anyInt())).thenReturn(false);
+            when(carDataHandler.getCarList()).thenReturn(carList);
+
+            assertEquals(HttpStatus.NOT_FOUND, carController.listSelectedCar((42)).getStatusCode());
+        }
+
+        @Test
+        @DisplayName("List a selected car while no car exists")
+        void listSelectedCar_NoCarExists() {
+            when(carList.isEmpty()).thenReturn(true);
+            when(carList.containsKey(anyInt())).thenReturn(false);
+            when(carDataHandler.getCarList()).thenReturn(carList);
+
+            assertEquals(HttpStatus.NOT_FOUND, carController.listSelectedCar((42)).getStatusCode());
+        }
+    }
+
+
+    @Nested
+    @DisplayName("Every option to edit a car ")
+    class editCar {
+
+        HashMap<Integer, Car> carList = Mockito.mock(HashMap.class);
+
+        @BeforeEach
+        void setupMockCar(){
+            when(emptyCar.getId()).thenReturn(42);
+        }
+
+        @Test
+        @DisplayName("Edit a car successfully")
+        void editCar() {
             //fix errors in Controller function
-            HashMap<Integer, Car> carList = Mockito.mock(HashMap.class);
             when(carList.isEmpty()).thenReturn(false);
             when(carList.containsKey(anyInt())).thenReturn(true);
             when(carDataHandler.getCarList()).thenReturn(carList);
@@ -72,12 +144,8 @@ public class CarControllerTest {
         }
 
         @Test
+        @DisplayName("Edit a car with an Invalid ID")
         void editCar_InvalidID() {
-            //setup mock car
-            Car emptyCar = mock(Car.class);
-            when(emptyCar.getId()).thenReturn(42);
-
-            HashMap<Integer, Car> carList = Mockito.mock(HashMap.class);
             when(carList.isEmpty()).thenReturn(false);
             when(carList.containsKey(anyInt())).thenReturn(false);
             when(carDataHandler.getCarList()).thenReturn(carList);
@@ -87,12 +155,8 @@ public class CarControllerTest {
         }
 
         @Test
+        @DisplayName("Edit a car while no car exists")
         void editCar_CarListEmpty() {
-            //setup mock car
-            Car emptyCar = mock(Car.class);
-            when(emptyCar.getId()).thenReturn(42);
-
-            HashMap<Integer, Car> carList = Mockito.mock(HashMap.class);
             when(carList.isEmpty()).thenReturn(true);
             when(carList.containsKey(anyInt())).thenReturn(false);
             when(carDataHandler.getCarList()).thenReturn(carList);
@@ -102,34 +166,37 @@ public class CarControllerTest {
         }
 
         @Test
+        @DisplayName("Edit a car without providing an ID")
         void editCar_withoutID() {
-            //setup mock car
-            Car emptyCar = mock(Car.class);
+            //change mock car
             when(emptyCar.getId()).thenReturn(null);
 
-            HashMap<Integer, Car> carList = Mockito.mock(HashMap.class);
             when(carList.isEmpty()).thenReturn(false);
             when(carList.containsKey(anyInt())).thenReturn(true);
             when(carDataHandler.getCarList()).thenReturn(carList);
 
             assertEquals(HttpStatus.BAD_REQUEST, carController.addCarProperties(emptyCar).getStatusCode());
-
         }
     }
 
 
     @Nested
+    @DisplayName("Every option to delete a car")
     class deleteCar {
+
+        HashMap<Integer, Car> carList = Mockito.mock(HashMap.class);
+
+        @BeforeEach
+        void setupMockCar(){
+            when(emptyCar.getId()).thenReturn(7);
+        }
+
         @Test
+        @DisplayName("Delete a car successfully")
         void deleteCar() {
             //setup Mock Hashmap to avoid error in deleteCar function from Controller
-            HashMap<Integer, Car> carList = Mockito.mock(HashMap.class);
             when(carList.isEmpty()).thenReturn(false);
             when(carList.containsKey(anyInt())).thenReturn(true);
-
-            //setup empty mock Car
-            Car emptyCar = mock(Car.class);
-            when(emptyCar.getId()).thenReturn(7);
 
             //successfully deleted
             when(carDataHandler.getCarList()).thenReturn(carList);
@@ -137,13 +204,8 @@ public class CarControllerTest {
         }
 
         @Test
+        @DisplayName("Delete a car with an Invalid ID")
         void deleteCar_InvalidID() {
-            //setup empty mock Car
-            Car emptyCar = mock(Car.class);
-            when(emptyCar.getId()).thenReturn(7);
-
-            HashMap<Integer, Car> carList = Mockito.mock(HashMap.class);
-
             when(carList.isEmpty()).thenReturn(false);
             when(carList.containsKey(anyInt())).thenReturn(false);
 
@@ -152,13 +214,8 @@ public class CarControllerTest {
         }
 
         @Test
+        @DisplayName("Delete a car while no car exists")
         void deleteCar_NoCarToDelete() {
-            //setup empty mock Car
-            Car emptyCar = mock(Car.class);
-            when(emptyCar.getId()).thenReturn(7);
-
-            HashMap<Integer, Car> carList = Mockito.mock(HashMap.class);
-
             when(carList.isEmpty()).thenReturn(true);
             when(carList.containsKey(anyInt())).thenReturn(false);
 
@@ -166,5 +223,4 @@ public class CarControllerTest {
             assertEquals(HttpStatus.NOT_FOUND, carController.deleteCarJSON(emptyCar).getStatusCode());
         }
     }
-
 }

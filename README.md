@@ -2,10 +2,14 @@
 ## Description
 A simple CRUD REST API in spring boot which can create Cars. You can create, edit, list and delete cars.
 ## Overview
-- [Requirements](#Requirements)
-- [Setup](#Setup)
-- [How to use](#HowToUse)
-- [Doc](#Doc)
+- [CarService CRUD REST API](#carservice-crud-rest-api)
+  - [Description](#description)
+  - [Overview](#overview)
+  - [Requirements](#requirements)
+  - [Setup](#setup)
+  - [HowToUse](#howtouse)
+  - [Doc](#doc)
+  - [Tests](#tests)
 ## Requirements
 - Java 8 or higher
 - Maven 3.6.3 or higher
@@ -34,4 +38,7 @@ A Car can have to following properties:
 - motor_art - engine typ (diesel, gasoline, electric)
 ## Doc
 - you can generate a javadoc with ``mvn javadoc:javadoc`` in the project folder. The javadoc files will be generated in ``./target/site/apidocs``
-- also, you can use Swagger ``http://localhost:8080/swagger-ui``
+- also, you can use Swagger ``http://localhost:8080/swagger-ui/``
+## Tests
+- You can test the API with newman tests.
+- Simply start the API (see [Setup](#Setup)), then go to the project directory and run ``newman run CarService.postman_collection.json``

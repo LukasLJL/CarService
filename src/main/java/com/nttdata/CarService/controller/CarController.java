@@ -50,9 +50,7 @@ public class CarController {
     @ResponseStatus(code = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST, value = "/create", consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createCar(@RequestBody Car car) {
-        LOGGER.debug("POST Request | JSON Object");
         carDataHandler.createCar(car);
-        LOGGER.info("POST Request | Successfully added JSON Car object");
         return new ResponseEntity<>("Created Car with ID: " + car.getId(), HttpStatus.CREATED);
     }
 
@@ -68,7 +66,6 @@ public class CarController {
             LOGGER.error("GET Request | Car list is empty");
             return new ResponseEntity<>("Car list is empty", HttpStatus.NOT_FOUND);
         }
-        LOGGER.debug("GET Request | List all cars");
         return new ResponseEntity<>(carDataHandler.getCarList(), HttpStatus.OK);
     }
 
@@ -91,7 +88,6 @@ public class CarController {
             LOGGER.debug("GET Request | Invalid ID / No Car found with ID: " + id);
             return new ResponseEntity<>("No Car with this id", HttpStatus.NOT_FOUND);
         } else {
-            LOGGER.debug("GET Request | List selected car");
         }
         return new ResponseEntity<>(carDataHandler.getCarList().get(id), HttpStatus.OK);
 
@@ -130,7 +126,6 @@ public class CarController {
         }
         if (car.getId() != null && !carDataHandler.getCarList().isEmpty() && carDataHandler.getCarList().containsKey(car.getId())) {
             carDataHandler.editCar(car);
-            LOGGER.info("PUT Request | Successfully added JSON car");
         }
         return new ResponseEntity<>("Properties added!", HttpStatus.OK);
     }
@@ -155,8 +150,6 @@ public class CarController {
         }
 
         carDataHandler.deleteCar(id);
-
-        LOGGER.info("DELETE Request | Deleted Car with parameter");
         return new ResponseEntity<>("Removed!", HttpStatus.NO_CONTENT);
     }
 
@@ -189,7 +182,6 @@ public class CarController {
             return new ResponseEntity<>("Id is invalid", HttpStatus.NOT_FOUND);
         }
         carDataHandler.deleteCar(car.getId());
-        LOGGER.info("DELETE Request | Deleted JSON car");
         return new ResponseEntity<>("Removed!", HttpStatus.NO_CONTENT);
     }
 
@@ -225,10 +217,8 @@ public class CarController {
                                             @RequestParam(required = false) Integer tueren,
                                             @RequestParam(required = false) Integer drehmoment,
                                             @RequestParam(required = false) String motor_art) {
-        LOGGER.debug("POST Request | with parameter");
 
         Car newCar = carDataHandler.createCar(marke, model, gewicht, leistung, farbe, klasse, tueren, drehmoment, motor_art);
-        LOGGER.info("POST Request | Successfully added with parameter");
         return new ResponseEntity<>("Created Car with ID: " + newCar.getId(), HttpStatus.CREATED);
     }
 
@@ -280,7 +270,6 @@ public class CarController {
         }
         if (id != null && !carDataHandler.getCarList().isEmpty() && carDataHandler.getCarList().containsKey(id)) {
             carDataHandler.editCar(id, marke, model, gewicht, leistung, drehmoment, farbe, tueren, klasse, motor_art);
-            LOGGER.info("PUT Request | Successfully changed Car with parameter");
         }
         return new ResponseEntity<>("Properties added!", HttpStatus.OK);
     }

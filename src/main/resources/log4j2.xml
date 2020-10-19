@@ -36,8 +36,8 @@
             <AppenderRef ref="logFile" level="info"/>
         </Root>
 
-        <logger name="com.nttdata.CarService" level="debug">
-            <AppenderRef ref="debugLogFile" level="debug"/>
+        <logger name="com.nttdata.CarService" level="trace">
+            <AppenderRef ref="debugLogFile" level="trace"/>
         </logger>
     </Loggers>
 </Configuration>

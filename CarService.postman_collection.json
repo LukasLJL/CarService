@@ -1,0 +1,555 @@
+{
+	"info": {
+		"_postman_id": "5b63e1d6-4989-44bf-b0fb-034bcc734bb4",
+		"name": "CarService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "BeforeAll",
+			"item": [
+				{
+					"name": "ListCar_all_IsEmpty",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "42ab62cb-87a7-4268-ad15-ca9abfc40535",
+								"exec": [
+									"pm.test(\"Status: Not Found\", function() {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/car/list",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"car",
+								"list"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "CreateCar",
+			"item": [
+				{
+					"name": "CreateCar_normal",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a7b5f755-457e-4745-82f2-988ffff9f5ff",
+								"exec": [
+									"pm.test(\"Status Code is 201\", function() {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"marke\": \"Mercedes\",\r\n    \"modell\": \"A-Klasse\",\r\n    \"gewicht\": 1400,\r\n    \"leistung\": 120,\r\n    \"drehmoment\": 0,\r\n    \"farbe\": \"grau\",\r\n    \"tueren\": 0,\r\n    \"klasse\": \"Limousine\",\r\n    \"motor_art\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/car/create",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"car",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateCar_WithGivenID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a4470864-4dc2-4320-a7bd-830f639b24f4",
+								"exec": [
+									"pm.test(\"Status Code is 201\", function() {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"pm.test(\"Correct ID: 200\", function () {\r",
+									"    pm.response.to.have.body(\"Created Car with ID: 200\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 200,\r\n    \"marke\": \"Mercedes\",\r\n    \"modell\": \"A-Klasse\",\r\n    \"gewicht\": 1400,\r\n    \"leistung\": 120,\r\n    \"drehmoment\": 0,\r\n    \"farbe\": \"grau\",\r\n    \"tueren\": 0,\r\n    \"klasse\": \"Limousine\",\r\n    \"motor_art\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/car/create",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"car",
+								"create"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "EditCar",
+			"item": [
+				{
+					"name": "EditCar_WithoutID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3c3bb2d9-41d2-4561-b841-3d67f68bf106",
+								"exec": [
+									"pm.test(\"Status: Bad Request\", function() {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"drehmoment\": 800,\r\n  \"motor_art\": \"diesel\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/car/edit",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"car",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditCar_WithInvalidID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "15e280fa-d3da-43d2-9f0d-dae0c511009f",
+								"exec": [
+									"pm.test(\"Status: Not Found\", function() {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": -1,\r\n  \"drehmoment\": 800,\r\n  \"motor_art\": \"diesel\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/car/edit",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"car",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditCar_WithGrivenID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bf74399a-9cc7-4ae7-a724-cd135b5a6d6f",
+								"exec": [
+									"pm.test(\"Status: OK\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 0,\r\n  \"drehmoment\": 800,\r\n  \"motor_art\": \"diesel\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/car/edit",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"car",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "ListCar",
+			"item": [
+				{
+					"name": "ListCar_all_normal",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "285dc325-8291-4024-96c1-ea8f32ff2ff3",
+								"exec": [
+									"pm.test(\"Status: OK\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/car/list",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"car",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ListCar_selected_normal",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9be22f85-17a6-4be2-b2ce-8239cd4d258b",
+								"exec": [
+									"pm.test(\"Status: OK\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/car/list/0",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"car",
+								"list",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ListCar_selected_doesNotExist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f2f198df-8893-4f86-afc9-db5a9bf6881e",
+								"exec": [
+									"pm.test(\"Status: Not Found\", function() {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/car/list/120",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"car",
+								"list",
+								"120"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "DeleteCar",
+			"item": [
+				{
+					"name": "DeleteCar_normal",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1110023a-ccb9-4dce-a33b-e69ce1864286",
+								"exec": [
+									"pm.test(\"Status: No Content\", function() {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/car/delete",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"car",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteCar_normal_2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "445ccfde-6856-4d17-854b-eba4ddc1cb5b",
+								"exec": [
+									"pm.test(\"Status: No Content\", function() {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 200\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/car/delete",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"car",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteCar_WithoutID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c1d3ebce-4f4c-4a40-9a4f-1bbd23af2bf3",
+								"exec": [
+									"pm.test(\"Status: Bad Request\", function() {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/car/delete",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"car",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteCar_WithInvalidID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "28752e15-3d0f-42a5-9f42-1c0095207480",
+								"exec": [
+									"pm.test(\"Status: Not Found\", function() {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": -1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/car/delete",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"car",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

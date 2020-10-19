@@ -21,9 +21,9 @@ A simple CRUD REST API in spring boot which can create Cars. You can create, edi
     - go to the project directory
     - on Windows or Linux etc. run: ``mvn package``
     - now there should be a jar file in the ``target`` folder
-    - run ``java -jar ./target/CarService-1.0.0.jar`` to start the api manual
+    - run ``java -jar ./target/CarService-1.1.0.jar`` to start the api manual
 - Now the API should run on ``http://localhost:8080/car/``
-- *to make testing easier just run ``createSampleData.cmd`` or ``createSampleData.sh``
+- *to make testing easier just run ``createSampleData.sh``
 This script will create some sample data*
 ## HowToUse
 A Car can have to following properties:

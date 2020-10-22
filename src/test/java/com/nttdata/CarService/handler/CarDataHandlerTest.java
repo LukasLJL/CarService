@@ -1,6 +1,7 @@
 package com.nttdata.CarService.handler;
 
 import com.nttdata.CarService.entity.Car;
+import com.nttdata.CarService.repository.CarRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -12,10 +13,11 @@ public class CarDataHandlerTest {
 
 
     private CarDataHandler unitTestData;
+    private CarRepository carRepository;
 
     @BeforeEach
     public void init() {
-        unitTestData = new CarDataHandler();
+        unitTestData = new CarDataHandler(carRepository);
     }
 
     @Nested

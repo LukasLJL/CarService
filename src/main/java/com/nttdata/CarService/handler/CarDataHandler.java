@@ -1,11 +1,14 @@
 package com.nttdata.CarService.handler;
 
 import com.nttdata.CarService.entity.Car;
+import com.nttdata.CarService.repository.CarRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * DataHandler for the REST API <br>
@@ -16,19 +19,16 @@ import java.util.HashMap;
 @Component
 public class CarDataHandler {
 
-    /**
-     * Hashmap to store data
-     */
-    static HashMap<Integer, Car> carList = new HashMap<>();
 
     private static final Logger LOGGER = LogManager.getLogger(CarDataHandler.class);
 
-
     private static int id;
 
-    /*
-    JSON Handling
-     */
+    final CarRepository carRepository;
+
+    public CarDataHandler(CarRepository carRepository) {
+        this.carRepository = carRepository;
+    }
 
 
     /**
@@ -41,12 +41,15 @@ public class CarDataHandler {
      */
     //create Car with JSON
     public Car createCar(Car car) {
-        if (car.getId() != null && !carList.containsKey(car.getId())) {
+        if (car.getId() != null && !carRepository.existsById(car.getId())) {
             car.setId(car.getId());
         } else {
             car.setId(id++);
+            while (carRepository.existsById(car.getId())) {
+                car.setId(id++);
+            }
         }
-        carList.put(car.getId(), car);
+        carRepository.save(car);
         LOGGER.info("DATA | Created Car with ID:" + car.getId());
         return car;
     }
@@ -59,50 +62,56 @@ public class CarDataHandler {
      * @return car
      * @since 1.1
      */
+
     //edit Car with JSON
     public Car editCar(Car car) {
         String newContent = "";
-        if (car.getId() == null || !carList.containsKey(car.getId())) {
+        if (car.getId() == null || !carRepository.existsById(car.getId())) {
             LOGGER.error("DATA | No Car ID!");
             return null;
         }
+
+        Car updatedCar = carRepository.findById(car.getId()).get();
+
         if (car.getMarke() != null) {
-            carList.get(car.getId()).setMarke(car.getMarke());
+            updatedCar.setMarke(car.getMarke());
             newContent += "marke: " + car.getMarke() + " // ";
         }
         if (car.getModel() != null) {
-            carList.get(car.getId()).setModel(car.getModel());
+            updatedCar.setModel(car.getModel());
             newContent += "model: " + car.getModel() + " // ";
         }
         if (car.getGewicht() != 0) {
-            carList.get(car.getId()).setGewicht(car.getGewicht());
+            updatedCar.setGewicht(car.getGewicht());
             newContent += "gewicht: " + car.getGewicht() + " // ";
         }
         if (car.getLeistung() != 0) {
-            carList.get(car.getId()).setLeistung(car.getLeistung());
+            updatedCar.setLeistung(car.getLeistung());
             newContent += "leistung: " + car.getLeistung() + " // ";
         }
         if (car.getDrehmoment() != 0) {
-            carList.get(car.getId()).setDrehmoment(car.getDrehmoment());
+            updatedCar.setDrehmoment(car.getDrehmoment());
             newContent += "drehmoment: " + car.getDrehmoment() + " // ";
         }
         if (car.getFarbe() != null) {
-            carList.get(car.getId()).setFarbe(car.getFarbe());
+            updatedCar.setFarbe(car.getFarbe());
             newContent += "farbe: " + car.getFarbe() + " // ";
         }
         if (car.getTueren() != 0) {
-            carList.get(car.getId()).setTueren(car.getTueren());
+            updatedCar.setTueren(car.getTueren());
             newContent += "türen: " + car.getTueren() + " // ";
         }
         if (car.getKlasse() != null) {
-            carList.get(car.getId()).setKlasse(car.getKlasse());
+            updatedCar.setKlasse(car.getKlasse());
             newContent += "klasse: " + car.getKlasse() + " // ";
         }
         if (car.getMotor_art() != null) {
-            carList.get(car.getId()).setMotor_art(car.getMotor_art());
+            updatedCar.setMotor_art(car.getMotor_art());
             newContent += "motor-art: " + car.getMotor_art();
         }
-        LOGGER.info("DATA | Changed properties of car with ID: " + carList.get(car.getId()).getId() + " // " + newContent);
+
+        carRepository.save(updatedCar);
+        LOGGER.info("DATA | Changed properties of car with ID: " + updatedCar.getId() + " // " + newContent);
         return car;
     }
 
@@ -112,18 +121,34 @@ public class CarDataHandler {
      * @param id car id to delete car
      */
     public void deleteCar(Integer id) {
-        carList.remove(id);
+        Car deleteCar = new Car();
+        deleteCar.setId(id);
+        carRepository.delete(deleteCar);
         LOGGER.info("DATA | Removed Car with ID: " + id);
     }
 
     public HashMap<Integer, Car> getCarList() {
         LOGGER.debug("DATA | List Cars");
-        return carList;
+        ArrayList<Car> carArrayList = new ArrayList<>();
+        Iterator<Car> carIterator = carRepository.findAll().iterator();
+        while (carIterator.hasNext()) {
+            carArrayList.add(carIterator.next());
+        }
+        HashMap<Integer, Car> tempCarList = new HashMap<>();
+        Iterator<Car> carIterator1 = carArrayList.iterator();
+        while (carIterator1.hasNext()) {
+            Car tempCar = carIterator1.next();
+            tempCarList.put(tempCar.getId(), tempCar);
+        }
+        return tempCarList;
     }
 
-    /*
-    Handling for LEGACY Parameter style
-     */
+    public void resetData(){
+        LOGGER.info("DATA | RESET DATA");
+        id = 0;
+        carRepository.deleteAll();
+    }
+
 
     /**
      * --- LEGACY --- <br>
@@ -166,7 +191,7 @@ public class CarDataHandler {
         if (motor_art != null) {
             car.setMotor_art(motor_art);
         }
-        carList.put(car.getId(), car);
+        carRepository.save(car);
         LOGGER.info("DATA | Created Car with ID:" + car.getId());
 
         return car;
@@ -195,47 +220,46 @@ public class CarDataHandler {
                         Integer tueren, String klasse, String motor_art) {
         String newContent = "";
 
-        if (id == null || !carList.containsKey(id)) {
+        if (id == null || !carRepository.existsById(id)) {
             LOGGER.error("DATA | No Car ID!");
             return;
         }
-
         if (marke != null) {
-            carList.get(id).setMarke(marke);
+            carRepository.findById(id).get().setMarke(marke);
             newContent += "marke: " + marke + " // ";
         }
         if (model != null) {
-            carList.get(id).setModel(model);
+            carRepository.findById(id).get().setModel(model);
             newContent += "model: " + model + " // ";
         }
         if (gewicht != null && gewicht != 0) {
-            carList.get(id).setGewicht(gewicht);
+            carRepository.findById(id).get().setGewicht(gewicht);
             newContent += "gewicht: " + gewicht + " // ";
         }
         if (leistung != null && leistung != 0) {
-            carList.get(id).setLeistung(leistung);
+            carRepository.findById(id).get().setLeistung(leistung);
             newContent += "leistung: " + leistung + " // ";
         }
         if (drehmoment != null && drehmoment != 0) {
-            carList.get(id).setDrehmoment(drehmoment);
+            carRepository.findById(id).get().setDrehmoment(drehmoment);
             newContent += "drehmoment: " + drehmoment + " // ";
         }
         if (farbe != null) {
-            carList.get(id).setFarbe(farbe);
+            carRepository.findById(id).get().setFarbe(farbe);
             newContent += "farbe: " + farbe + " // ";
         }
         if (tueren != null && tueren != 0) {
-            carList.get(id).setTueren(tueren);
+            carRepository.findById(id).get().setTueren(tueren);
             newContent += "türen: " + tueren + " // ";
         }
         if (klasse != null) {
-            carList.get(id).setKlasse(klasse);
+            carRepository.findById(id).get().setKlasse(klasse);
             newContent += "klasse: " + klasse + " // ";
         }
         if (motor_art != null) {
-            carList.get(id).setMotor_art(motor_art);
+            carRepository.findById(id).get().setMotor_art(motor_art);
             newContent += "motor-art: " + motor_art;
         }
-        LOGGER.info("DATA | Changed properties of car with ID: " + carList.get(id).getId() + " // " + newContent);
+        LOGGER.info("DATA | Changed properties of car with ID: " + carRepository.findById(id).get().getId() + " // " + newContent);
     }
 }

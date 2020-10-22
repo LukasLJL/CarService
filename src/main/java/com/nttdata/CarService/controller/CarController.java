@@ -185,6 +185,29 @@ public class CarController {
         return new ResponseEntity<>("Removed!", HttpStatus.NO_CONTENT);
     }
 
+    /**
+     * DELETE Request | Resets complete API <br>
+     *
+     * @return ResponseEntity
+     */
+    @ApiOperation(value = "Delete every car", notes = "Delete a selected Car with an ID")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(code = 204, message = "Removed!"),
+                    @ApiResponse(code = 404, message = "Invalid ID / No Car found with ID"),
+            }
+    )
+    @RequestMapping(method = RequestMethod.DELETE, value = "/deleteAll")
+    public ResponseEntity<String> deletaAllCars() {
+        LOGGER.debug("DELETE Request | delete selected car");
+//        if (carDataHandler.getCarList().isEmpty()) {
+//            LOGGER.error("DELETE Request | No Cars");
+//            return new ResponseEntity<>("No Cars", HttpStatus.NOT_FOUND);
+//        }
+        carDataHandler.resetData();
+        return new ResponseEntity<>("Removed all cars!", HttpStatus.NO_CONTENT);
+    }
+
 
     /*
     LEGACY // USE API WITH PARAMETER

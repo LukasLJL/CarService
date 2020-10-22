@@ -9,6 +9,39 @@
 			"name": "BeforeAll",
 			"item": [
 				{
+					"name": "ResetAPI",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8bcc93ad-bdf5-4a9c-b535-5ac1bfdb73ae",
+								"exec": [
+									"pm.test(\"Status: No Content\", function() {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/car/deleteAll",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"car",
+								"deleteAll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "ListCar_all_IsEmpty",
 					"event": [
 						{
@@ -57,7 +90,14 @@
 								"exec": [
 									"pm.test(\"Status Code is 201\", function() {\r",
 									"    pm.response.to.have.status(201);\r",
-									"});"
+									"});\r",
+									"\r",
+									"//Save the Respone CarID\r",
+									"var responseData = pm.response.text();\r",
+									"var response = responseData.replace(\"Created Car with ID: \", \"\");\r",
+									"pm.globals.set(\"carID\", response);\r",
+									"\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -68,7 +108,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"marke\": \"Mercedes\",\r\n    \"modell\": \"A-Klasse\",\r\n    \"gewicht\": 1400,\r\n    \"leistung\": 120,\r\n    \"drehmoment\": 0,\r\n    \"farbe\": \"grau\",\r\n    \"tueren\": 0,\r\n    \"klasse\": \"Limousine\",\r\n    \"motor_art\": null\r\n}",
+							"raw": "{\r\n    \"marke\": \"Mercedes\",\r\n    \"modell\": \"A-Klasse\",\r\n    \"gewicht\": 1400,\r\n    \"leistung\": 120,\r\n    \"drehmoment\": 100,\r\n    \"farbe\": \"grau\",\r\n    \"tueren\": 0,\r\n    \"klasse\": \"Limousine\",\r\n    \"motor_art\": null\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -100,9 +140,21 @@
 									"pm.test(\"Status Code is 201\", function() {\r",
 									"    pm.response.to.have.status(201);\r",
 									"});\r",
-									"pm.test(\"Correct ID: 200\", function () {\r",
-									"    pm.response.to.have.body(\"Created Car with ID: 200\");\r",
-									"});"
+									"pm.test(\"Correct ID: \" + pm.globals.get('randomCarID'), function () {\r",
+									"    pm.response.to.have.body(\"Created Car with ID: \" + pm.globals.get('randomCarID'));\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "ae2a3f13-faa2-43dc-911c-ae9a55419c94",
+								"exec": [
+									"pm.globals.set(\"randomCarID\", Math.floor(Math.random() * 5000 + 20));\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -113,7 +165,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 200,\r\n    \"marke\": \"Mercedes\",\r\n    \"modell\": \"A-Klasse\",\r\n    \"gewicht\": 1400,\r\n    \"leistung\": 120,\r\n    \"drehmoment\": 0,\r\n    \"farbe\": \"grau\",\r\n    \"tueren\": 0,\r\n    \"klasse\": \"Limousine\",\r\n    \"motor_art\": null\r\n}",
+							"raw": "{\r\n    \"id\": {{randomCarID}},\r\n    \"marke\": \"Mercedes\",\r\n    \"modell\": \"A-Klasse\",\r\n    \"gewicht\": 1400,\r\n    \"leistung\": 120,\r\n    \"drehmoment\": 0,\r\n    \"farbe\": \"grau\",\r\n    \"tueren\": 0,\r\n    \"klasse\": \"Limousine\",\r\n    \"motor_art\": null\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -245,7 +297,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"id\": 0,\r\n  \"drehmoment\": 800,\r\n  \"motor_art\": \"diesel\"\r\n}",
+							"raw": "{\r\n  \"id\": {{carID}},\r\n  \"drehmoment\": 800,\r\n  \"motor_art\": \"diesel\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -325,7 +377,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/car/list/0",
+							"raw": "localhost:8080/car/list/{{carID}}",
 							"host": [
 								"localhost"
 							],
@@ -333,7 +385,7 @@
 							"path": [
 								"car",
 								"list",
-								"0"
+								"{{carID}}"
 							]
 						}
 					},
@@ -359,7 +411,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/car/list/120",
+							"raw": "localhost:8080/car/list/1200",
 							"host": [
 								"localhost"
 							],
@@ -367,7 +419,7 @@
 							"path": [
 								"car",
 								"list",
-								"120"
+								"1200"
 							]
 						}
 					},
@@ -400,7 +452,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 0\r\n}",
+							"raw": "{\r\n    \"id\": {{carID}}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -442,7 +494,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 200\r\n}",
+							"raw": "{\r\n    \"id\": {{randomCarID}}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

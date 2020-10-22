@@ -3,18 +3,25 @@ package com.nttdata.CarService.entity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.persistence.*;
+import java.io.Serializable;
+
 /**
- * Car Objetct for the CAR Service <br>
+ * Car Object for the CAR Service <br>
  * All properties of a car with getter and setter <br>
  * @author Lukas
  */
 @ApiModel(description = "Car")
+@Entity
+@Table(name = "car")
 public class Car {
+
 
     /**
      * ID of car
      */
     @ApiModelProperty(notes = "ID of car", example = "1", position = 0)
+    @Id
     private Integer id;
 
     /**

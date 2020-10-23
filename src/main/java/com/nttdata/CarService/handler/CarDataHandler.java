@@ -112,7 +112,7 @@ public class CarDataHandler {
 
         carRepository.save(updatedCar);
         LOGGER.info("DATA | Changed properties of car with ID: " + updatedCar.getId() + " // " + newContent);
-        return car;
+        return updatedCar;
     }
 
     /**

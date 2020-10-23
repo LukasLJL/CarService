@@ -140,7 +140,7 @@ public class CarControllerTest {
             when(carDataHandler.getCarList()).thenReturn(carList);
 
             //check if all is true, that it works
-            assertEquals(HttpStatus.OK, carController.addCarProperties(emptyCar).getStatusCode());
+            assertEquals(HttpStatus.OK, carController.editCar(emptyCar).getStatusCode());
         }
 
         @Test
@@ -150,7 +150,7 @@ public class CarControllerTest {
             when(carList.containsKey(anyInt())).thenReturn(false);
             when(carDataHandler.getCarList()).thenReturn(carList);
 
-            assertEquals(HttpStatus.NOT_FOUND, carController.addCarProperties(emptyCar).getStatusCode());
+            assertEquals(HttpStatus.NOT_FOUND, carController.editCar(emptyCar).getStatusCode());
 
         }
 
@@ -161,7 +161,7 @@ public class CarControllerTest {
             when(carList.containsKey(anyInt())).thenReturn(false);
             when(carDataHandler.getCarList()).thenReturn(carList);
 
-            assertEquals(HttpStatus.NOT_FOUND, carController.addCarProperties(emptyCar).getStatusCode());
+            assertEquals(HttpStatus.NOT_FOUND, carController.editCar(emptyCar).getStatusCode());
 
         }
 
@@ -175,7 +175,7 @@ public class CarControllerTest {
             when(carList.containsKey(anyInt())).thenReturn(true);
             when(carDataHandler.getCarList()).thenReturn(carList);
 
-            assertEquals(HttpStatus.BAD_REQUEST, carController.addCarProperties(emptyCar).getStatusCode());
+            assertEquals(HttpStatus.BAD_REQUEST, carController.editCar(emptyCar).getStatusCode());
         }
     }
 

@@ -2,7 +2,9 @@ package com.nttdata.CarService.controller;
 
 import com.nttdata.CarService.entity.Car;
 import com.nttdata.CarService.handler.CarDataHandler;
-import io.swagger.annotations.*;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-
-import static org.springframework.http.MediaType.*;
+import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VALUE;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
  * Car Controller
@@ -88,9 +89,8 @@ public class CarController {
             LOGGER.debug("GET Request | Invalid ID / No Car found with ID: " + id);
             return new ResponseEntity<>("No Car with this id", HttpStatus.NOT_FOUND);
         } else {
+            return new ResponseEntity<>(carDataHandler.getCarList().get(id), HttpStatus.OK);
         }
-        return new ResponseEntity<>(carDataHandler.getCarList().get(id), HttpStatus.OK);
-
     }
 
     /**
@@ -109,9 +109,7 @@ public class CarController {
             }
     )
     @RequestMapping(method = RequestMethod.PUT, value = "/edit", consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> addCarProperties(@RequestBody Car car) {
-        LOGGER.debug("PUT Request | Change or add properties of a car");
-
+    public ResponseEntity<String> editCar(@RequestBody Car car) {
         if (car.getId() == null) {
             LOGGER.error("PUT Request | No ID selected");
             return new ResponseEntity<>("No ID", HttpStatus.BAD_REQUEST);
@@ -139,8 +137,6 @@ public class CarController {
     @RequestMapping(method = RequestMethod.DELETE, value = "/delete", consumes = APPLICATION_FORM_URLENCODED_VALUE)
     @ApiOperation(value = "Delete Car", notes = "Delete a selected Car with an ID", hidden = true)
     public ResponseEntity<String> deleteCar(@RequestParam int id) {
-        LOGGER.debug("DELETE Request | delete selected car");
-
         if (carDataHandler.getCarList().isEmpty()) {
             LOGGER.error("DELETE Request | No Cars");
             return new ResponseEntity<>("No Cars", HttpStatus.NOT_FOUND);
@@ -169,7 +165,6 @@ public class CarController {
     )
     @RequestMapping(method = RequestMethod.DELETE, value = "/delete", consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<String> deleteCarJSON(@RequestBody Car car) {
-        LOGGER.debug("DELETE Request | delete selected car");
         if(car.getId() == null){
             LOGGER.error("DELETE Request | No ID");
             return new ResponseEntity<>("No ID", HttpStatus.BAD_REQUEST);
@@ -193,17 +188,11 @@ public class CarController {
     @ApiOperation(value = "Delete every car", notes = "Delete a selected Car with an ID")
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 204, message = "Removed!"),
-                    @ApiResponse(code = 404, message = "Invalid ID / No Car found with ID"),
+                    @ApiResponse(code = 204, message = "Removed!")
             }
     )
     @RequestMapping(method = RequestMethod.DELETE, value = "/deleteAll")
     public ResponseEntity<String> deletaAllCars() {
-        LOGGER.debug("DELETE Request | delete selected car");
-//        if (carDataHandler.getCarList().isEmpty()) {
-//            LOGGER.error("DELETE Request | No Cars");
-//            return new ResponseEntity<>("No Cars", HttpStatus.NOT_FOUND);
-//        }
         carDataHandler.resetData();
         return new ResponseEntity<>("Removed all cars!", HttpStatus.NO_CONTENT);
     }
@@ -278,7 +267,6 @@ public class CarController {
                                                    @RequestParam(required = false) Integer leistung, @RequestParam(required = false) Integer drehmoment,
                                                    @RequestParam(required = false) String farbe, @RequestParam(required = false) Integer tueren,
                                                    @RequestParam(required = false) String klasse, @RequestParam(required = false) String motor_art) {
-        LOGGER.debug("PUT Request | Change or add properties of a car");
         if (id == null) {
             LOGGER.error("PUT Request | No ID selected");
             return new ResponseEntity<>("No ID selected", HttpStatus.BAD_REQUEST);

@@ -1,0 +1,45 @@
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body" class="table-responsive"> 
+            <h2>Edit</h2>
+            <form [formGroup]="carForm">
+                <table class="table table-stripped">
+                    <thead>
+                        <th>ID</th>
+                        <th>Marke</th>
+                        <th>Model</th>
+                        <th>Leistung</th>
+                        <th>Drehmoment</th>
+                        <th>Gewicht</th>
+                        <th>Farbe</th>
+                        <th>Türen</th>
+                        <th>Klasse</th>
+                        <th>Motor-Art</th>
+                        <th></th>
+                        <!--Edit Button-->
+                        <th></th>
+                        <!--Delete Button-->
+                    </thead>
+                    <tbody>
+                        <ng-container>
+                            <tr> 
+                                <td> <input type="number" class="form-control" formControlName="id" required/> </td>
+                                <td> <input type="text" placeholder={{car.marke}} class="form-control" formControlName="marke" /> </td>
+                                <td> <input type="text" placeholder={{car.model}} class="form-control" formControlName="model" /> </td>
+                                <td> <input type="number" placeholder={{car.leistung}} class="form-control" formControlName="leistung" /> </td>
+                                <td> <input type="number" placeholder={{car.drehmoment}} class="form-control" formControlName="drehmoment" /> </td>
+                                <td> <input type="number" placeholder={{car.gewicht}} class="form-control" formControlName="gewicht" /></td>
+                                <td> <input type="text" placeholder={{car.farbe}} class="form-control" formControlName="farbe" /></td>
+                                <td> <input type="number" placeholder={{car.tueren}} class="form-control" formControlName="tueren" /></td>
+                                <td> <input type="text" placeholder={{car.klasse}} class="form-control" formControlName="klasse" /></td>
+                                <td> <input type="text" placeholder={{car.motor_art}} class="form-control" formControlName="motor_art" /></td>
+                                <td> <button class="btn btn-success" type="submit" (click)="updateCar()" > <i class="fa fa-check"></i> </button> </td>
+                                <td> <button class="btn btn-danger" type="button" (click)="cancelUpdate()" > <i class="fa fa-ban"></i> </button> </td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>

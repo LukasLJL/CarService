@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="text-center">Found Car: {{car_single.id}}</h2>
+            <table class="table table-stripped">
+                <thead>
+                    <th>ID</th>
+                    <th>Marke</th>
+                    <th>Model</th>
+                    <th>Leistung</th>
+                    <th>Drehmoment</th>
+                    <th>Gewicht</th>
+                    <th>Farbe</th>
+                    <th>Türen</th>
+                    <th>Klasse</th>
+                    <th>Motor-Art</th>
+                    <th></th>
+                    <!--Edit Button-->
+                    <th></th>
+                    <!--Delete Button-->
+                </thead>
+                <tbody *ngIf='car_single'>
+                    <td> {{ car_single.id }} </td>
+                    <td> {{ car_single.marke }} </td>
+                    <td> {{ car_single.model }} </td>
+                    <td> {{ car_single.leistung }} </td>
+                    <td> {{ car_single.drehmoment }} </td>
+                    <td> {{ car_single.gewicht }} </td>
+                    <td> {{ car_single.farbe }} </td>
+                    <td> {{ car_single.tueren }} </td>
+                    <td> {{ car_single.klasse }} </td>
+                    <td> {{ car_single.motor_art }} </td>
+                    <td> <button class="btn btn-success" type="submit" (click)="editCar(car_single.id)" > <i class="fa fa-edit"></i> </button> </td>
+                    <td> <button class="btn btn-danger" (click)="deleteCar(car_single.id)"> <i class="fa fa-trash"></i> </button> </td>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

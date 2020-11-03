@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="card">
+        <table class="table table-stripped">
+            <thead>
+                <th>ID</th>
+                <th>Marke</th>
+                <th>Model</th>
+                <th>Leistung</th>
+                <th>Drehmoment</th>
+                <th>Gewicht</th>
+                <th>Farbe</th>
+                <th>Türen</th>
+                <th>Klasse</th>
+                <th>Motor-Art</th>
+                <th></th>
+                <!--Edit Button-->
+                <th></th>
+                <!--Delete Button-->
+            </thead>
+            <tbody>
+                <tr *ngFor="let car of cars | keyvalue">
+                    <td> {{ car.value.id }} </td>
+                    <td> {{ car.value.marke }} </td>
+                    <td> {{ car.value.model }} </td>
+                    <td> {{ car.value.leistung }} </td>
+                    <td> {{ car.value.drehmoment }} </td>
+                    <td> {{ car.value.gewicht }} </td>
+                    <td> {{ car.value.farbe }} </td>
+                    <td> {{ car.value.tueren }} </td>
+                    <td> {{ car.value.klasse }} </td>
+                    <td> {{ car.value.motor_art }} </td>
+                    <td> <button class="btn btn-success" type="submit" (click)="editCar(car.value.id)"> <i
+                                class="fa fa-edit"></i> </button> </td>
+                    <td> <button class="btn btn-danger" (click)="deleteCar(car.value.id)"> <i class="fa fa-trash"></i>
+                        </button> </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,84 @@
+<h1 class="text-center">Create a new Car!</h1>
+<form #carForm="ngForm" (ngSubmit)="createCar(carForm.value)">
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label>Marke</label>
+                    <input type="text" class="form-control" id="marke" [(ngModel)]="car.marke" name="marke">
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label>Model</label>
+                    <input type="text" class="form-control" id="model" [(ngModel)]="car.model" name="model">
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label>Farbe</label>
+                    <input type="text" class="form-control" id="farbe" [(ngModel)]="car.farbe" name="farbe">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label>Leistung</label>
+                    <input type="number" class="form-control" id="leistung" [(ngModel)]="car.leistung" name="leistung">
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-group">
+                    <label>Drehmoment</label>
+                    <input type="number" class="form-control" id="drehmoment" [(ngModel)]="car.drehmoment"
+                        name="drehmoment">
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label>Gewicht</label>
+                    <input type="number" class="form-control" id="gewicht" [(ngModel)]="car.gewicht" name="gewicht">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label>Türen</label>
+                    <input type="number" class="form-control" id="turen" [(ngModel)]="car.tueren" name="tueren">
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label>Klasse</label>
+                    <input type="text" class="form-control" id="klasse" [(ngModel)]="car.klasse" name="klasse">
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label>Motor-Art</label>
+                    <input type="text" class="form-control" id="motor_art" [(ngModel)]="car.motor_art" name="motor_art">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+            </div>
+
+            <div class="col">
+                <button class="btn btn-success btn-block" type="submit">Add Car &nbsp;  <i class="fa fa-car"></i> </button>
+            </div>
+
+            <div class="col">                
+            </div>
+        </div>
+
+    </div>
+
+</form>

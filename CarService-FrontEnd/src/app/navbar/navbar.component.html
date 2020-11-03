@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">CarService</a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active" *ngIf='isCarList'>
+                <a class="nav-link" href="/car-list"> Car List </a>
+            </li>
+            <li class="nav-item" *ngIf='!isCarList'>
+                <a class="nav-link" href="/car-list"> Car List </a>
+            </li>
+
+            <li class="nav-item active" *ngIf='isCarCreate'>
+                <a class="nav-link" href="/car-create"> Create Car</a>
+            </li>
+            <li class="nav-item" *ngIf='!isCarCreate'>
+                <a class="nav-link" href="/car-create"> Create Car</a>
+            </li>
+
+            <li class="nav-item active" *ngIf='isCarEdit'>
+                <a class="nav-link" href="/car-edit"> Edit Car </a>
+            </li>
+        </ul>
+
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" #searchBox
+                id="search-box">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"
+                (click)="search(searchBox.value)">Search</button>
+        </form>
+    </div>
+</nav>

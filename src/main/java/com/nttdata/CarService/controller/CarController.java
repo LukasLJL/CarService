@@ -24,8 +24,11 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
  *
  * @author Lukas
  */
+
+
 @Controller
 @RequestMapping("/car")
+@CrossOrigin(origins = "http://localhost:4200")
 public class CarController {
 
     private final CarDataHandler carDataHandler;
@@ -134,9 +137,9 @@ public class CarController {
      * @param id car id to delete selected car
      * @return ResponseEntity
      */
-    @RequestMapping(method = RequestMethod.DELETE, value = "/delete", consumes = APPLICATION_FORM_URLENCODED_VALUE)
+    @RequestMapping(method = RequestMethod.DELETE, value = "/delete/{id}")
     @ApiOperation(value = "Delete Car", notes = "Delete a selected Car with an ID", hidden = true)
-    public ResponseEntity<String> deleteCar(@RequestParam int id) {
+    public ResponseEntity<String> deleteCar(@PathVariable int id) {
         if (carDataHandler.getCarList().isEmpty()) {
             LOGGER.error("DELETE Request | No Cars");
             return new ResponseEntity<>("No Cars", HttpStatus.NOT_FOUND);

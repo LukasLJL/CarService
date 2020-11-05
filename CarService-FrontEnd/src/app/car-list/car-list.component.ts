@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { orderBy } from 'lodash';
 import { CarService } from '../car.service';
 import { Car } from '../car';
 

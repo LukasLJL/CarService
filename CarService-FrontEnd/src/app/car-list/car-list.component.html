@@ -18,7 +18,7 @@
                 <!--Delete Button-->
             </thead>
             <tbody>
-                <tr *ngFor="let car of cars | keyvalue">
+                <tr *ngFor="let car of cars | keyvalue ">
                     <td> {{ car.value.id }} </td>
                     <td> {{ car.value.marke }} </td>
                     <td> {{ car.value.model }} </td>
@@ -29,10 +29,8 @@
                     <td> {{ car.value.tueren }} </td>
                     <td> {{ car.value.klasse }} </td>
                     <td> {{ car.value.motor_art }} </td>
-                    <td> <button class="btn btn-success" type="submit" (click)="editCar(car.value.id)"> <i
-                                class="fa fa-edit"></i> </button> </td>
-                    <td> <button class="btn btn-danger" (click)="deleteCar(car.value.id)"> <i class="fa fa-trash"></i>
-                        </button> </td>
+                    <td> <button class="btn btn-success" type="submit" (click)="editCar(car.value.id)"> <i class="fa fa-edit"></i> </button> </td>
+                    <td> <button class="btn btn-danger" (click)="deleteCar(car.value.id)"> <i class="fa fa-trash"></i> </button> </td>
                 </tr>
             </tbody>
         </table>

@@ -1,4 +1,9 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Observable, of } from 'rxjs';
+import { AppRoutingModule } from '../app-routing.module';
+import { Car } from '../car';
+import { CarService } from '../car.service';
 
 import { CarListSingleComponent } from './car-list-single.component';
 
@@ -8,9 +13,16 @@ describe('CarListSingleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CarListSingleComponent ]
+      declarations: [CarListSingleComponent],
+      imports: [
+        HttpClientModule,
+        AppRoutingModule
+      ],
+      providers: [
+        { provide: CarService, useClass: CarServiceStub }
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -22,4 +34,22 @@ describe('CarListSingleComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should edit car', () => {
+    expect(component.editCar).toBeTruthy();
+  });
+
+  it('should delete car', () => {
+    expect(component.deleteCar).toBeTruthy();
+  });
+
+  it('should list car', () => {
+    expect(component.ngOnInit).toBeTruthy();
+  });
 });
+
+class CarServiceStub {
+  getSingle(id: number): Observable<any> {
+    return of(Car);
+  }
+}

@@ -28,7 +28,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Controller
 @RequestMapping("/car")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class CarController {
 
     private final CarDataHandler carDataHandler;

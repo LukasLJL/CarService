@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Car } from './car';
@@ -8,7 +8,9 @@ import { Car } from './car';
 })
 export class CarService {
 
-  private server_url = 'http://localhost:8080/car';
+  private server_url = 'http://192.168.99.101/backend';
+
+
 
   private carService_list = this.server_url + '/list/';
   private carService_add = this.server_url + '/create/';

@@ -1,0 +1,12 @@
+.git
+node_modules
+.mvn
+.idea
+.gitignore
+Dockerfile-Angular
+Dockerfile-SpringBoot
+logs
+target
+CarService-FrontEnd/.git
+CarService-FrontEnd/node_modules
+CarService-FrontEnd/dist

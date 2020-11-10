@@ -28,11 +28,10 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/car/deleteAll",
+							"raw": "{{api_url}}/car/deleteAll",
 							"host": [
-								"localhost"
+								"{{api_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"car",
 								"deleteAll"
@@ -61,11 +60,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/car/list",
+							"raw": "{{api_url}}/car/list",
 							"host": [
-								"localhost"
+								"{{api_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"car",
 								"list"
@@ -116,11 +114,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/car/create",
+							"raw": "{{api_url}}/car/create",
 							"host": [
-								"localhost"
+								"{{api_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"car",
 								"create"
@@ -173,11 +170,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/car/create",
+							"raw": "{{api_url}}/car/create",
 							"host": [
-								"localhost"
+								"{{api_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"car",
 								"create"
@@ -221,11 +217,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/car/edit",
+							"raw": "{{api_url}}/car/edit",
 							"host": [
-								"localhost"
+								"{{api_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"car",
 								"edit"
@@ -263,11 +258,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/car/edit",
+							"raw": "{{api_url}}/car/edit",
 							"host": [
-								"localhost"
+								"{{api_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"car",
 								"edit"
@@ -305,11 +299,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/car/edit",
+							"raw": "{{api_url}}/car/edit",
 							"host": [
-								"localhost"
+								"{{api_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"car",
 								"edit"
@@ -344,11 +337,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/car/list",
+							"raw": "{{api_url}}/car/list",
 							"host": [
-								"localhost"
+								"{{api_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"car",
 								"list"
@@ -377,11 +369,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/car/list/{{carID}}",
+							"raw": "{{api_url}}/car/list/{{carID}}",
 							"host": [
-								"localhost"
+								"{{api_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"car",
 								"list",
@@ -411,11 +402,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/car/list/1200",
+							"raw": "{{api_url}}/car/list/1200",
 							"host": [
-								"localhost"
+								"{{api_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"car",
 								"list",
@@ -460,11 +450,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/car/delete",
+							"raw": "{{api_url}}/car/delete",
 							"host": [
-								"localhost"
+								"{{api_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"car",
 								"delete"
@@ -502,11 +491,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/car/delete",
+							"raw": "{{api_url}}/car/delete",
 							"host": [
-								"localhost"
+								"{{api_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"car",
 								"delete"
@@ -544,11 +532,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/car/delete",
+							"raw": "{{api_url}}/car/delete",
 							"host": [
-								"localhost"
+								"{{api_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"car",
 								"delete"
@@ -586,11 +573,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/car/delete",
+							"raw": "{{api_url}}/car/delete",
 							"host": [
-								"localhost"
+								"{{api_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"car",
 								"delete"

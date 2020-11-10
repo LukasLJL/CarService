@@ -8,7 +8,7 @@ import { Car } from './car';
 })
 export class CarService {
 
-  private server_url = 'http://192.168.99.101/backend';
+  private server_url = 'http://backend-app/backend';
 
 
 

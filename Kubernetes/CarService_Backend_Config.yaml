@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: carservice-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: carservice-backend
+  template:
+    metadata:
+      labels:
+        app: carservice-backend
+    spec:
+      containers:
+        - name: carservice-backend
+          image: carservice_springboot_backend
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: carservice-backend
+  labels:
+    name: carservice-backend
+spec:
+  selector:
+    app: carservice-backend
+  ports:
+  - nodePort: 30002
+    protocol: TCP
+    port: 8080
+    targetPort: 8080
+  type: NodePort

@@ -10,6 +10,7 @@ A simple CRUD REST API in spring boot which can create Cars. You can create, edi
   - [Setup-Kubernetes (minikube)](#setup-kubernetes-minikube)
   - [Setup-Local](#setup-local)
   - [Doc](#doc)
+    - [Swagger](#swagger)
   - [Tests](#tests)
   - [Scripts](#scripts)
 ## Requirements
@@ -28,11 +29,11 @@ A simple CRUD REST API in spring boot which can create Cars. You can create, edi
 *Tested with minikube on Windows*
 - First you have to Build the Docker Images.. but you should be connected to the Kubernetes (minikube) docker-system
   - For this step execute ``eval "$(minikube docker-env --shell=bash)"``, now you can perform docker commands and they will be executed at the kubernetes docker-system
-- Now you can simply run a script to apply all K8 CarService Configs ``./K8Configs.sh``
+  - Now you can run a script to build all required images ``buildImages.sh``
+- You can simply run a script to apply all K8 CarService Configs ``./K8Configs.sh``
 - Now everything should be running, the frontend is accessible at ``http://minikube/``
 - If you want you can delete all K8 CarService Configs with a script ``./K8Delete.sh``
 ## Setup-Local
-- Download the git repo `` git clone https://github.com/LukasLJL/CarService.git`` 
 - Import the maven project into your favorite ide (best Intellij)
 - Simply start the project in your ide
 - an alternative way to start the api:
@@ -43,10 +44,20 @@ A simple CRUD REST API in spring boot which can create Cars. You can create, edi
 - Now the API should run on ``http://localhost:8080/car/``
 ## Doc
 - you can generate a javadoc with ``mvn javadoc:javadoc`` in the project folder. The javadoc files will be generated in ``./target/site/apidocs``
-- also, you can use Swagger ``http://DOCKER-HOST-IP:8080/swagger-ui/``
+### Swagger
+- Local -> ``http://localhost:8080/swagger-ui/``
+- Docker -> ``http://DOCKER-HOST-IP:8080/swagger-ui/``
+- Kubernetes -> ``http://minikube:30002/swagger-ui/``
+  - Replace ``minikube`` if you are not using minikube
 ## Tests
 - You can test the API with newman tests.
-- Simply start the API (see [Setup](#Setup)), then go to the project directory and run ``newman run CarService.postman_collection.json``
+- Simply start the API, then go to the project directory and run the test script ``./newman_tests.sh <platform>``
+  - Local -> ``./newman_tests.sh local``
+  - Docker -> ``./newman_tests.sh docker``
+  - Kubernetes -> ``./newman_tests.sh kubernetes``
 ## Scripts
--  *to make testing easier just run ``createSampleData.sh platform``
-This script will create some sample data*
+-  *to make testing easier just run ``createSampleData.sh <platform>`` This script will create some sample data*
+  - You may have to change the IP for the Platform which you are using. Just edit the script ``createSampleData.sh ``
+  - Local -> ``./createSampleData.sh local``
+  - Docker -> ``./createSampleData.sh docker``
+  - Kubernetes -> ``./createSampleData.sh kubernetes``

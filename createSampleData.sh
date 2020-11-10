@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $1 == localhost ]; then
+if [ $1 == local ]; then
     api_url=localhost:8080
 elif [ $1 == docker ]; then
     api_url=192.168.99.101:8080

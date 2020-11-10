@@ -17,20 +17,22 @@ spec:
           image: postgres:12
           ports:
             - containerPort: 5432
-          envFrom:
-            - configMapRef:
-                name: carservice-database-config
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: carservice-database-config
-  labels:
-    app: database
-data:
-  POSTGRES_DB: CarService
-  POSTGRES_USER: postgres
-  POSTGRES_PASSWORD: admin
+          env:
+          - name: POSTGRES_DB
+            valueFrom:
+              secretKeyRef:
+                name: database-secret
+                key: postgres-db-name
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: database-secret
+                key: postgres-user
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: database-secret
+                key: postgres-password
 ---
 apiVersion: v1
 kind: Service

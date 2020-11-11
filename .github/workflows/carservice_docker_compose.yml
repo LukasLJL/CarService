@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Setting up Docker with docker-compose
+    - name: Setting up Docker
       - run : docker-compose up -d
     - name: Checking Docker Containers
       - run: docker ps

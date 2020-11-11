@@ -14,10 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Checking files
-      run: ls -la
     - name: Setting up Docker
-      run: docker-compose -f ./Docker/docker-compose.yml up -d
+      run: docker-compose up -d
     - name: Checking Docker Containers
       run: docker ps
     - name: Test the Application with newman tests in docker

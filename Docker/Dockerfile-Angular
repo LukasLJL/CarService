@@ -1,14 +1,14 @@
 #build-anuglar-frontend
 FROM node:15.1.0-alpine As builder
 WORKDIR /opt/CarService-Fronend/
-COPY ../CarService-FrontEnd/package.json ../CarService-FrontEnd/package-lock.json ./
+COPY ./CarService-FrontEnd/package.json ./CarService-FrontEnd/package-lock.json ./
 RUN npm install
 
-COPY ../CarService-FrontEnd .
+COPY ./CarService-FrontEnd .
 RUN npm install -g @angular/cli
 RUN npm run build --prod
 
 #nginx-server
 FROM nginx:1.19.4-alpine
 COPY --from=builder /opt/CarService-Fronend/dist/CarService-FrontEnd /usr/share/nginx/html
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./Docker/nginx.conf /etc/nginx/conf.d/default.conf

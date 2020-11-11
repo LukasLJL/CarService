@@ -1,6 +1,6 @@
 FROM maven
 
-COPY . /opt/CarService-Backend
+COPY ../ /opt/CarService-Backend
 
 RUN rm -rf /opt/CarService-Backend/CarService-FrontEnd
 RUN cd /opt/CarService-Backend && ls -la

@@ -27,6 +27,8 @@ jobs:
       run: mvn -B package --file pom.xml 
     - name: Run API in Background
       run: screen -dmS CarService_API_Spring "java -jar ./target/CarService-1.2.0.jar" -- /usr/bin/Xvfb :1 -screen 0 800x600x16 -ac
+    - name: list screen
+      run: screen -ls
     - name: Wait for API
       run: sleep 20
     - name: Test the api with newman tests

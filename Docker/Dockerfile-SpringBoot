@@ -3,6 +3,7 @@ FROM maven
 COPY . /opt/CarService-Backend
 
 RUN rm -rf /opt/CarService-Backend/CarService-FrontEnd
+RUN cd /opt/CarService-Backend && ls -la
 RUN cd /opt/CarService-Backend && mvn package
 
 ENTRYPOINT java -jar ./opt/CarService-Backend/target/CarService-1.2.0.jar

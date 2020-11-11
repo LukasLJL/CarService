@@ -15,9 +15,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Setting up Docker
-        run: docker-compose up -d
+      run: docker-compose up -d
     - name: Checking Docker Containers
-        run: docker ps
+      run: docker ps
     - name: Test the Application with newman tests in docker
       uses: matt-ball/newman-action@master
       with:

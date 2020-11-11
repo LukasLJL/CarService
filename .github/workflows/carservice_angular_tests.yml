@@ -19,7 +19,7 @@ jobs:
     - name: Node.js (15) Testing Angular App
       uses: actions/setup-node@v1
       with:
-        node-version: 15
+        node-version: 14
     - run: cd ./CarService-FrontEnd && npm ci
     - run: cd ./CarService-FrontEnd && npm run build:prod --if-present
     - run: cd ./CarService-FrontEnd && npm run test:prod

@@ -22,18 +22,12 @@ jobs:
         postgresql user: 'postgres'
         postgresql password: 'admin'
     - name: Changing Hostfile for Springboot
-      run:  sudo echo "127.0.0.1 database" | sudo tee -a /etc/hosts
-      
-    - name: JDK 1.8 Package SpringBoot App
-      uses: actions/setup-java@v1
-      with:
-        java-version: 1.8
+      run:  sudo echo "127.0.0.1 database" | sudo tee -a /etc/hosts      
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
-    - name: Start API
-      run: java -jar ./target/CarService-1.2.0.jar
+      run: mvn -B package --file pom.xml    
     - name: Test the api with newman tests
       uses: matt-ball/newman-action@master
+      run: java -jar ./target/CarService-1.2.0.jar
       with:
         collection: ./Tests/CarService.postman_collection.json
         environment: ./Tests/local.postman_environment.json

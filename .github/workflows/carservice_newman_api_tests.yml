@@ -1,0 +1,37 @@
+# This workflow will build a Java project with Maven
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: CarService-API-Tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  newman:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setting up Local PostgreSQL Server
+      uses: harmon758/postgresql-action@v1
+      with:
+        postgresql version: '12'
+        postgresql db: 'CarService'
+        postgresql user: 'postgres'
+        postgresql password: 'admin'
+    - name: Changing Hostfile for Springboot
+      run: 127.0.0.1 database >> /etc/localhost
+    - name: JDK 1.8 Package SpringBoot App
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Build and Run with Maven
+      run: mvn -B package --file pom.xml
+      run: java -jar ./target/CarService-1.2.0.jar
+    - name: Test the api with newman tests
+      uses: matt-ball/newman-action@master
+      with:
+        collection: ./Tests/CarService.postman_collection.json
+        environment: ./Tests/local.postman_environment.json

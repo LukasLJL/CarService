@@ -25,5 +25,5 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: cd ./CarService-FrontEnd && npm ci
-    - run: cd ./CarService-FrontEnd && npm run build --if-present
-    - run: cd ./CarService-FrontEnd && npm test
+    - run: cd ./CarService-FrontEnd && npm run build:prod --if-present
+    - run: cd ./CarService-FrontEnd && npm test:prod

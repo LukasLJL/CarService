@@ -22,7 +22,8 @@ jobs:
         postgresql user: 'postgres'
         postgresql password: 'admin'
     - name: Changing Hostfile for Springboot
-      run: 127.0.0.1 database >> /etc/localhost
+      run:  sudo echo "127.0.0.1 database" | sudo tee -a /etc/hosts
+      
     - name: JDK 1.8 Package SpringBoot App
       uses: actions/setup-java@v1
       with:

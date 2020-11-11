@@ -29,6 +29,6 @@ jobs:
       uses: actions/setup-node@v2   
       with:
           node-version: '12'
-      run: |
+    - run: |
         java -jar ./target/CarService-1.2.0.jar
         newman run ./Tests/CarService.postman_collection.json -e ./Tests/local.postman_environment.json

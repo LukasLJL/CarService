@@ -18,18 +18,23 @@ spec:
           imagePullPolicy: Never
           ports:
             - containerPort: 8080
+              name: springboot
+              protocol: TCP
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: carservice-backend
+  name: carservice-backend  
   labels:
     name: carservice-backend
+    app: carservice-backend
+    release: prometheus-operator-1605270001
 spec:
   selector:
     app: carservice-backend
   ports:
-  - nodePort: 30002
+  - name: springboot
+    nodePort: 30002
     protocol: TCP
     port: 8080
     targetPort: 8080

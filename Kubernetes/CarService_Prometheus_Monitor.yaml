@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: carservice-backend
+    release: prometheus-operator-1605270001
+  name: backend-service-monitor
+  namespace: monitoring
+spec:
+  endpoints:
+  - interval: 15s
+    path: "/actuator/prometheus"
+    port: springboot
+  namespaceSelector:
+    matchNames:
+    - default
+  selector:
+    matchLabels:
+      app: carservice-backend

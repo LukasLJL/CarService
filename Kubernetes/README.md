@@ -4,6 +4,27 @@
 All Kubernetes Configs in one place to host the whole application on Kubernetes.
 You can also install some monitoring software (prometheus and grafana) to monitor your system. 
 
+## Overview
+- [Kubernetes Configs](#kubernetes-configs)
+  - [Description](#description)
+  - [Overview](#overview)
+  - [Requirements](#requirements)
+  - [Configs](#configs)
+    - [Application Configs](#application-configs)
+    - [Secrets](#secrets)
+    - [Ingress](#ingress)
+  - [Monitoring](#monitoring)
+    - [Monitoring Configs](#monitoring-configs)
+    - [Monitoring Dashboard](#monitoring-dashboard)
+    - [Install Monitoring](#install-monitoring)
+    - [Access Grafana and Prometheus](#access-grafana-and-prometheus)
+
+---
+
+## Requirements
+- Kubernetes (minikube)
+- Helm
+
 ---
 
 ## Configs

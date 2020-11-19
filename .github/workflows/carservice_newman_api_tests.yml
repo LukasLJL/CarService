@@ -31,5 +31,5 @@ jobs:
           node-version: '12'
     - run: |
         java -jar ./target/CarService-1.2.0.jar &
-        sleep 19 &
+        sleep 15
         newman run ./Tests/CarService.postman_collection.json -e ./Tests/local.postman_environment.json

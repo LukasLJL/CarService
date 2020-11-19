@@ -5,9 +5,9 @@ name: CarService-SpringBoot-Tests
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, working ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, working ]
 
 jobs:
   build:

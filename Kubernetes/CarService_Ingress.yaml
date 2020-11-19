@@ -15,4 +15,3 @@ spec:
                 name: carservice-frontend
                 port:
                   number: 80
-

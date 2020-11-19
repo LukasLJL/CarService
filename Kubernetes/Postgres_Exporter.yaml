@@ -1,0 +1,26 @@
+serviceMonitor:
+  # When set true then use a ServiceMonitor to configure scraping
+  enabled: true
+  # Set the namespace the ServiceMonitor should be deployed
+  namespace: monitoring
+  # Set how frequently Prometheus should scrape
+  interval: 15s
+  # Set path to cloudwatch-exporter telemtery-path
+  telemetryPath: /metrics
+  # Set labels for the ServiceMonitor, use this to define your scrape label for Prometheus Operator
+  labels:
+    release: prometheus-monitoring
+  # Set timeout for scrape
+  # timeout: 10s
+
+  config:
+    datasource:
+      # Specify one of both datasource or datasourceSecret
+      host: database.default
+      user: postgres
+      # Only one of password and passwordSecret can be specified
+      password: admin
+      # Specify passwordSecret if DB password is stored in secret.
+      port: "5432"
+      database: 'CarService'
+      sslmode: disable

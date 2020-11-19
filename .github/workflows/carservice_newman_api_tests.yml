@@ -5,9 +5,9 @@ name: CarService-API-Tests
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, working ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, working ]
 
 jobs:
   newman-tests:
@@ -31,4 +31,5 @@ jobs:
           node-version: '12'
     - run: |
         java -jar ./target/CarService-1.2.0.jar &
+        sleep 10 &
         newman run ./Tests/CarService.postman_collection.json -e ./Tests/local.postman_environment.json

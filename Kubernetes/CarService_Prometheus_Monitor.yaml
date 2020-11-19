@@ -3,12 +3,12 @@ kind: ServiceMonitor
 metadata:
   labels:
     app: carservice-backend
-    release: prometheus-operator-1605270001
+    release: prometheus-monitoring
   name: backend-service-monitor
   namespace: monitoring
 spec:
   endpoints:
-  - interval: 15s
+  - interval: 10s
     path: "/actuator/prometheus"
     port: springboot
   namespaceSelector:

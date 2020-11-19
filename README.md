@@ -9,6 +9,7 @@ A simple CRUD REST API in spring boot which can create Cars. You can create, edi
   - [Setup-Docker](#setup-docker)
   - [Setup-Kubernetes (minikube)](#setup-kubernetes-minikube)
   - [Setup-Local](#setup-local)
+  - [Monitoring and Kubernetes](#monitoring-and-kubernetes)
   - [Doc](#doc)
     - [Swagger](#swagger)
   - [Tests](#tests)
@@ -42,6 +43,8 @@ A simple CRUD REST API in spring boot which can create Cars. You can create, edi
     - now there should be a jar file in the ``target`` folder
     - run ``java -jar ./target/CarService-1.2.0.jar`` to start the api manual
 - Now the API should run on ``http://localhost:8080/car/``
+## Monitoring and Kubernetes
+[Kubernetes Configs](Kubernetes/README.md)
 ## Doc
 - you can generate a javadoc with ``mvn javadoc:javadoc`` in the project folder. The javadoc files will be generated in ``./target/site/apidocs``
 ### Swagger
